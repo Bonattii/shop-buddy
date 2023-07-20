@@ -1,0 +1,50 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mongodb"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id       String @id @default(auto()) @map("_id") @db.ObjectId
+  email    String @unique
+  username String @unique
+  name     String
+  password String
+  phone    String
+  salt     String
+
+  // MongoDb way to make a many-to-many relation
+  listIDs String[] @db.ObjectId
+  lists   List[]   @relation(fields: [listIDs], references: [id])
+}
+
+model List {
+  id        String   @id @default(auto()) @map("_id") @db.ObjectId
+  title     String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  item ListItem[]
+
+  // MongoDb way to make a many-to-many relation
+  userIDs String[] @db.ObjectId
+  users   User[]   @relation(fields: [userIDs], references: [id])
+}
+
+model ListItem {
+  id        String   @id @default(auto()) @map("_id") @db.ObjectId
+  itemName  String
+  isBought  Boolean  @default(false)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  // One-To-many relation between list and listItems
+  List   List?   @relation(fields: [listId], references: [id])
+  listId String? @db.ObjectId
+}
