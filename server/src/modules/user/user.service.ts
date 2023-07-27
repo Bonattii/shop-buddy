@@ -7,13 +7,11 @@ import { prisma } from '../../utils/prisma'
 export async function createUser(input: CreateUserInput) {
   const { password, ...rest } = input
 
-  const salt = await bcrypt.genSalt(10)
-  const hash = await bcrypt.hash(password, salt)
+  const hash = await bcrypt.hash(password, 10)
 
   const user = await prisma.user.create({
     data: {
       ...rest,
-      salt,
       password: hash,
     },
   })

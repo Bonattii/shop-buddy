@@ -17,7 +17,6 @@ model User {
   name     String
   password String
   phone    String
-  salt     String
 
   // MongoDb way to make a many-to-many relation
   listIDs String[] @db.ObjectId
