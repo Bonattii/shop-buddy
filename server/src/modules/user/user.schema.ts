@@ -7,11 +7,7 @@ const userCore = {
     .string({ required_error: 'Email is required', invalid_type_error: 'Email must be a string' })
     .email(),
   name: z.string(),
-  username: z
-    .string()
-    .max(16, 'Username must be less than 16 characters')
-    .min(8, 'Username must be at least 8 characters'),
-  phone: z.string().max(10, 'Phone must be less than 10 characters'),
+  phone: z.number(),
 }
 
 // Schema for creating a new user

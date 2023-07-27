@@ -13,10 +13,9 @@ datasource db {
 model User {
   id       String @id @default(auto()) @map("_id") @db.ObjectId
   email    String @unique
-  username String @unique
   name     String
   password String
-  phone    String
+  phone    Int
 
   // MongoDb way to make a many-to-many relation
   listIDs String[] @db.ObjectId
