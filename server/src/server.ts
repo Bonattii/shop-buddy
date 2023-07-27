@@ -1,5 +1,8 @@
-import Fastify from 'fastify'
+import Fastify, { FastifyReply, FastifyRequest } from 'fastify'
+import jwt from '@fastify/jwt'
 import cors from '@fastify/cors'
+import { userSchemas } from './modules/user/user.schema'
+import { userRoutes } from './modules/user/user.route'
 
 export const fastify = Fastify({ logger: true })
 
@@ -11,7 +14,29 @@ fastify.get('/healthcheck', async () => {
 // Make use of cors
 fastify.register(cors)
 
+// Register jwt into the server
+fastify.register(jwt, {
+  secret: process.env.SECRET!,
+})
+
+// Customize the core fastify object to have the authenticate
+fastify.decorate('authenticate', async (request: FastifyRequest, reply: FastifyReply) => {
+  try {
+    await request.jwtVerify()
+  } catch (error) {
+    return reply.send(error)
+  }
+})
+
 const bootstrap = async () => {
+  // Register the schemas
+  for (const schema of [...userSchemas]) {
+    fastify.addSchema(schema)
+  }
+
+  // Register the routes
+  await fastify.register(userRoutes, { prefix: '/api/users' })
+
   await fastify.listen({
     port: (process.env.PORT as unknown as number) || 3333,
     host: '0.0.0.0',
