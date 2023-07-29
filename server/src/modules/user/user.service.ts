@@ -40,3 +40,12 @@ export async function updateUser(input: UpdateUserInput) {
 
   return updatedUser
 }
+
+export async function getUsers() {
+  return prisma.user.findMany({
+    select: {
+      id: true,
+      name: true,
+    },
+  })
+}

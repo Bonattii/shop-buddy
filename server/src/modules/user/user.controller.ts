@@ -3,7 +3,7 @@ import bcrypt from 'bcrypt'
 import { fastify } from '../../server'
 
 import { CreateUserInput, LoginInput, UpdateUserInput } from './user.schema'
-import { createUser, findUserByEmail, updateUser } from './user.service'
+import { createUser, findUserByEmail, getUsers, updateUser } from './user.service'
 
 // Handler to create a new user
 export async function registerUserHandler(
@@ -77,4 +77,10 @@ export async function updateUserHandler(
     console.log(error)
     return reply.code(500).send(error)
   }
+}
+
+export async function getUsersHandler(request: FastifyRequest) {
+  const users = await getUsers()
+
+  return users
 }
