@@ -13,11 +13,13 @@ const listGenerated = {
 
 const createListSchema = z.object({
   ...listInput,
+  otherUserIDs: z.array(z.string()).optional(),
 })
 
 const updateListSchema = z.object({
   ...listInput,
   id: z.string(),
+  otherUserIDs: z.array(z.string()).optional(),
 })
 
 const deleteListSchema = z.object({

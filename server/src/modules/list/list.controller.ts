@@ -8,13 +8,19 @@ export async function createListHandler(
     Body: CreateListInput
   }>
 ) {
-  const list = await createList({ ...request.body, userIDs: [request.user.id] })
+  const { otherUserIDs, title } = request.body
+  const userIDs = [request.user.id, ...(otherUserIDs || [])]
+
+  const list = await createList(title, userIDs)
 
   return list
 }
 
 export async function updateListHandler(request: FastifyRequest<{ Body: UpdateListInput }>) {
-  const list = await updateList({ ...request.body, userIDs: [request.user.id] })
+  const { id, otherUserIDs, title } = request.body
+  const userIDs = [request.user.id, ...(otherUserIDs || [])]
+
+  const list = await updateList(title, id, userIDs)
 
   return list
 }

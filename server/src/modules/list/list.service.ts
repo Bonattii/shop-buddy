@@ -1,13 +1,23 @@
 import { prisma } from '../../utils/prisma'
-import { CreateListInput, UpdateListInput } from './list.schema'
 
-export async function createList(data: CreateListInput & { userIDs: string[] }) {
+export async function createList(title: string, userIDs: string[]) {
+  const data = {
+    title,
+    userIDs,
+  }
+
   return await prisma.list.create({
     data,
   })
 }
 
-export async function updateList(data: UpdateListInput & { userIDs: string[] }) {
+export async function updateList(title: string, id: string, userIDs: string[]) {
+  const data = {
+    title,
+    userIDs,
+    id,
+  }
+
   return await prisma.list.update({
     data: {
       title: data.title,
