@@ -3,6 +3,8 @@ import jwt from '@fastify/jwt'
 import cors from '@fastify/cors'
 import { userSchemas } from './modules/user/user.schema'
 import { userRoutes } from './modules/user/user.route'
+import { listSchemas } from './modules/list/list.schema'
+import { listRoutes } from './modules/list/list.route'
 
 export const fastify = Fastify({ logger: true })
 
@@ -30,12 +32,13 @@ fastify.decorate('authenticate', async (request: FastifyRequest, reply: FastifyR
 
 const bootstrap = async () => {
   // Register the schemas
-  for (const schema of [...userSchemas]) {
+  for (const schema of [...userSchemas, ...listSchemas]) {
     fastify.addSchema(schema)
   }
 
   // Register the routes
   await fastify.register(userRoutes, { prefix: '/api/users' })
+  await fastify.register(listRoutes, { prefix: '/api/lists' })
 
   await fastify.listen({
     port: (process.env.PORT as unknown as number) || 3333,
