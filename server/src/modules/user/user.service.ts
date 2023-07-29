@@ -21,7 +21,7 @@ export async function createUser(input: CreateUserInput) {
 
 // Found a user by their email
 export async function findUserByEmail(email: string) {
-  return prisma.user.findUnique({
+  return await prisma.user.findUnique({
     where: {
       email,
     },
