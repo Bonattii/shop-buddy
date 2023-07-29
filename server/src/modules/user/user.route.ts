@@ -1,5 +1,5 @@
 import { FastifyInstance } from 'fastify'
-import { loginUserHandler, registerUserHandler } from './user.controller'
+import { loginUserHandler, registerUserHandler, updateUserHandler } from './user.controller'
 import { $ref } from './user.schema'
 
 // User routes to login and register
@@ -28,5 +28,17 @@ export async function userRoutes(fastify: FastifyInstance) {
       },
     },
     loginUserHandler
+  )
+
+  fastify.put(
+    '/update',
+    {
+      preHandler: [fastify.authenticate],
+      schema: {
+        body: $ref('updateUserSchema'),
+        response: { 201: $ref('updateUserResponseSchema') },
+      },
+    },
+    updateUserHandler
   )
 }

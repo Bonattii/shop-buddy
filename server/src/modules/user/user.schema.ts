@@ -25,6 +25,16 @@ const createUserResponseSchema = z.object({
   ...userCore,
 })
 
+// Schema for updating a new user
+const updateUserSchema = z.object({
+  ...userCore,
+})
+
+// Route response for udpdating a new user
+const updateUserResponseSchema = z.object({
+  accessToken: z.string(),
+})
+
 // Schema for validating the data sent on the login route
 const loginSchema = z.object({
   email: z
@@ -47,6 +57,7 @@ const loginResponseSchema = z.object({
 // Types to be used on the user service
 export type CreateUserInput = z.infer<typeof createUserSchema>
 export type LoginInput = z.infer<typeof loginSchema>
+export type UpdateUserInput = z.infer<typeof updateUserSchema>
 
 // Export the schemas and enable to use them by $ref
 export const { schemas: userSchemas, $ref } = buildJsonSchemas(
@@ -55,6 +66,8 @@ export const { schemas: userSchemas, $ref } = buildJsonSchemas(
     createUserResponseSchema,
     loginSchema,
     loginResponseSchema,
+    updateUserSchema,
+    updateUserResponseSchema,
   },
   { $id: 'UserSchema' }
 )

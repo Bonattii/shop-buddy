@@ -1,6 +1,6 @@
 import bcrypt from 'bcrypt'
 
-import { CreateUserInput } from './user.schema'
+import { CreateUserInput, UpdateUserInput } from './user.schema'
 import { prisma } from '../../utils/prisma'
 
 // Create a salt and hash and create a user with it
@@ -26,4 +26,17 @@ export async function findUserByEmail(email: string) {
       email,
     },
   })
+}
+
+export async function updateUser(input: UpdateUserInput) {
+  const { email, ...rest } = input
+
+  const updatedUser = await prisma.user.update({
+    where: {
+      email,
+    },
+    data: rest,
+  })
+
+  return updatedUser
 }
