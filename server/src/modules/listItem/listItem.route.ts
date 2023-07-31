@@ -51,7 +51,7 @@ export async function listItemRoutes(fastify: FastifyInstance) {
     deleteListItemHandler
   )
 
-  fastify.get(
+  fastify.post(
     '/',
     {
       preHandler: [fastify.authenticate],
