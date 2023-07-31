@@ -1,3 +1,4 @@
+require('dotenv').config()
 import Fastify, { FastifyReply, FastifyRequest } from 'fastify'
 import jwt from '@fastify/jwt'
 import cors from '@fastify/cors'
