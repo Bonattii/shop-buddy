@@ -1,13 +1,13 @@
 import { prisma } from '../../utils/prisma'
 import { CreateListItemInput, UpdateListItemInput } from './listItem.schema'
 
-export async function createListItem(data: CreateListItemInput & { listId: string }) {
+export async function createListItem(data: CreateListItemInput ) {
   return await prisma.listItem.create({
     data,
   })
 }
 
-export async function updateListItem(data: UpdateListItemInput & { listId: string }) {
+export async function updateListItem(data: UpdateListItemInput) {
   return await prisma.listItem.update({
     data: {
       itemName: data.itemName,

@@ -14,6 +14,7 @@ const listItemGenerated = {
 
 const createListItemSchema = z.object({
   ...listItemInput,
+  listId: z.string(),
 })
 
 const updateListItemSchema = z.object({
@@ -23,6 +24,10 @@ const updateListItemSchema = z.object({
 
 const deleteListItemSchema = z.object({
   id: z.string(),
+})
+
+const getListItemsSchema = z.object({
+  listId: z.string(),
 })
 
 const listItemResponseSchema = z.object({
@@ -35,12 +40,14 @@ const listItemsResponseSchema = z.array(listItemResponseSchema)
 export type CreateListItemInput = z.infer<typeof createListItemSchema>
 export type UpdateListItemInput = z.infer<typeof updateListItemSchema>
 export type DeleteListItemInput = z.infer<typeof deleteListItemSchema>
+export type GetListItemsInput = z.infer<typeof getListItemsSchema>
 
 export const { schemas: listItemSchemas, $ref } = buildJsonSchemas(
   {
     createListItemSchema,
     updateListItemSchema,
     deleteListItemSchema,
+    getListItemsSchema,
     listItemResponseSchema,
     listItemsResponseSchema,
   },
