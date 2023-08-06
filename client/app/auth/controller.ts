@@ -1,16 +1,12 @@
-import { ChangeEvent, useCallback, useState } from 'react';
-import { AuthFormInputIds } from './types';
+import { useCallback, useState } from 'react';
 import { api } from '../server/api';
+import * as Yup from 'yup';
+import { useFormik } from 'formik';
 import { saveTokenToLocalStorage } from '../utils/storage';
 import { useRouter } from 'next/navigation';
+import { AuthFormValues } from './types';
 
 const useAuth = () => {
-  const [name, setName] = useState('');
-  const [phone, setPhone] = useState('');
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const [confirmPassword, setConfirmPassword] = useState('');
-
   const [variant, setVariant] = useState<'login' | 'register'>('login');
 
   const router = useRouter();
@@ -21,81 +17,88 @@ const useAuth = () => {
     );
   }, []);
 
-  const handleInputChange = (event: ChangeEvent<HTMLInputElement>) => {
-    const { name, value } = event.target;
-
-    switch (name) {
-      case AuthFormInputIds.Name:
-        setName(value);
-        break;
-      case AuthFormInputIds.Phone:
-        setPhone(value);
-        break;
-      case AuthFormInputIds.Email:
-        setEmail(value);
-        break;
-      case AuthFormInputIds.Password:
-        setPassword(value);
-        break;
-      case AuthFormInputIds.ConfirmPassword:
-        setConfirmPassword(value);
-        break;
-      default:
-        setName('');
-        setPhone('');
-        setEmail('');
-        setPassword('');
-        break;
-    }
-  };
-
-  const handleLogin = useCallback(() => {
-    api
-      .post('/users/login', {
-        email,
-        password
-      })
-      .then(response => {
-        saveTokenToLocalStorage(response.data.accessToken);
-        router.push('/dashboard');
-      })
-      .catch(error => {
-        console.error('Error:', error);
-      });
-  }, [email, password, router]);
-
-  const handleRegister = useCallback(() => {
-    if (password !== confirmPassword) {
-      alert('Passwords must match');
-      return;
-    } else {
+  const handleLoginSubmit = useCallback(
+    (values: AuthFormValues) => {
       api
-        .post('/users/register', {
-          name,
-          email,
-          phone: Number(phone),
-          password
+        .post('/users/login', {
+          email: values.email,
+          password: values.password
         })
-        .then(() => {
-          handleLogin();
+        .then(response => {
+          saveTokenToLocalStorage(response.data.accessToken);
+          router.push('/dashboard');
         })
         .catch(error => {
           console.error('Error:', error);
         });
+    },
+    [router]
+  );
+
+  const handleRegisterSubmit = useCallback(
+    (values: AuthFormValues) => {
+      api
+        .post('/users/register', {
+          name: values.name,
+          email: values.email,
+          phone: Number(values.phone),
+          password: values.password
+        })
+        .then(() => {
+          handleLoginSubmit(values);
+        })
+        .catch(error => {
+          console.error('Error:', error);
+        });
+    },
+    [handleLoginSubmit]
+  );
+
+  const onSubmit = (values: AuthFormValues) => {
+    if (variant === 'login') {
+      handleLoginSubmit(values);
+    } else if (variant === 'register') {
+      handleRegisterSubmit(values);
     }
-  }, [confirmPassword, email, handleLogin, name, password, phone]);
+  };
+
+  const formik = useFormik({
+    initialValues: {
+      name: '',
+      phone: '',
+      email: '',
+      password: '',
+      confirmPassword: ''
+    },
+    validationSchema: Yup.object({
+      name: Yup.string().required('Name is required'),
+      phone: Yup.string()
+        .matches(/^\d{10}$/, 'Phone number must be 10 digits')
+        .required('Phone number is required'),
+      email: Yup.string()
+        .email('Invalid email address')
+        .required('Email is required'),
+      password: Yup.string()
+        .required('Password is required')
+        .matches(
+          /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#$%^&*()])[0-9a-zA-Z!@#$%^&*()]{8,}$/,
+          'Password must contain at least 1 number, 1 capital letter, 1 lowercase letter, 1 special character, and be at least 8 characters long'
+        ),
+      confirmPassword: Yup.string()
+        .oneOf([Yup.ref('password')], 'Passwords must match')
+        .required('Confirm password is required')
+        .matches(
+          /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#$%^&*()])[0-9a-zA-Z!@#$%^&*()]{8,}$/,
+          'Password must contain at least 1 number, 1 capital letter, 1 lowercase letter, 1 special character, and be at least 8 characters long'
+        )
+    }),
+    onSubmit: onSubmit
+  });
 
   return {
-    name,
-    phone,
-    email,
-    password,
-    confirmPassword,
     variant,
     toggleVariant,
-    handleInputChange,
-    handleLogin,
-    handleRegister
+    formik
   };
 };
 

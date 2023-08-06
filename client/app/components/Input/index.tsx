@@ -1,11 +1,10 @@
 import { InputProps } from './types';
 
-const Input = ({ label, inputId, ...rest }: InputProps) => (
+const Input = ({ label, inputId, error, ...rest }: InputProps) => (
   <div className="relative">
     <input
       {...rest}
       id={inputId}
-      required
       className="
           block
           rounded-md
@@ -25,7 +24,7 @@ const Input = ({ label, inputId, ...rest }: InputProps) => (
     />
 
     <label
-      className="
+      className={`
           absolute
           text-md
           text-zinc-400
@@ -41,11 +40,14 @@ const Input = ({ label, inputId, ...rest }: InputProps) => (
           peer-placeholder-shown:translate-y-0
           peer-focus:scale-75
           peer-focus:-translate-y-3
-        "
+          ${error && 'border-red-500'}
+        `}
       htmlFor={inputId}
     >
       {label}
     </label>
+
+    {typeof error === 'string' && <p className="text-red-500 mt-2">{error}</p>}
   </div>
 );
 

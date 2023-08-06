@@ -1,7 +1,7 @@
-export enum AuthFormInputIds {
-  Name = 'auth-name',
-  Email = 'auth-email',
-  Phone = 'auth-phone',
-  Password = 'auth-password',
-  ConfirmPassword = 'auth-confirm-password'
-}
+export type AuthFormValues = {
+  name: string;
+  phone: string;
+  email: string;
+  password: string;
+  confirmPassword: string;
+};
