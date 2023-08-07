@@ -1,21 +1,16 @@
 import { useCallback, useState } from 'react';
-import { api } from '../server/api';
+import { api } from '../../../server/api';
 import * as Yup from 'yup';
 import { useFormik } from 'formik';
-import { saveTokenToLocalStorage } from '../utils/storage';
+import { saveTokenToLocalStorage } from '../../../utils/storage';
 import { useRouter } from 'next/navigation';
 import { AuthFormValues } from './types';
+import { useAuthStore } from '@/app/store/AuthStore';
 
-const useAuth = () => {
-  const [variant, setVariant] = useState<'login' | 'register'>('login');
+const useAuthContent = () => {
+  const { authVariation, toggleVariation } = useAuthStore();
 
   const router = useRouter();
-
-  const toggleVariant = useCallback(() => {
-    setVariant(currentVariant =>
-      currentVariant === 'login' ? 'register' : 'login'
-    );
-  }, []);
 
   const handleLoginSubmit = useCallback(
     (values: AuthFormValues) => {
@@ -55,9 +50,9 @@ const useAuth = () => {
   );
 
   const onSubmit = (values: AuthFormValues) => {
-    if (variant === 'login') {
+    if (authVariation === 'login') {
       handleLoginSubmit(values);
-    } else if (variant === 'register') {
+    } else if (authVariation === 'register') {
       handleRegisterSubmit(values);
     }
   };
@@ -96,10 +91,10 @@ const useAuth = () => {
   });
 
   return {
-    variant,
-    toggleVariant,
+    authVariation,
+    toggleVariation,
     formik
   };
 };
 
-export default useAuth;
+export default useAuthContent;
