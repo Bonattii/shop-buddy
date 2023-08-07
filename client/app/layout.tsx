@@ -2,6 +2,7 @@ import './globals.css';
 import type { Metadata } from 'next';
 import { inter } from './fonts';
 import ClientOnly from './components/ClientOnly';
+import Footer from './components/Sections/Footer';
 
 export const metadata: Metadata = {
   title: 'Create Next App',
@@ -23,6 +24,7 @@ export default function RootLayout({
         `}
       >
         <ClientOnly>{children}</ClientOnly>
+        <Footer />
       </body>
     </html>
   );
