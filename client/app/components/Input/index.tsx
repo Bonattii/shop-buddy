@@ -14,7 +14,7 @@ const Input = ({ label, inputId, error, ...rest }: InputProps) => (
           w-full
           text-md
           text-white
-          bg-neutral-700
+          bg-neutral-900
           appearance-none
           focus:outline-none
           focus:ring-0
@@ -27,7 +27,7 @@ const Input = ({ label, inputId, error, ...rest }: InputProps) => (
       className={`
           absolute
           text-md
-          text-zinc-400
+          text-zinc-500
           duration-150
           transform
           -translate-y-3
@@ -40,14 +40,15 @@ const Input = ({ label, inputId, error, ...rest }: InputProps) => (
           peer-placeholder-shown:translate-y-0
           peer-focus:scale-75
           peer-focus:-translate-y-3
-          ${error && 'border-red-500'}
         `}
       htmlFor={inputId}
     >
       {label}
     </label>
 
-    {typeof error === 'string' && <p className="text-red-500 mt-2">{error}</p>}
+    {typeof error === 'string' && (
+      <p className="text-red-500 mt-3 ml-3">{error}</p>
+    )}
   </div>
 );
 

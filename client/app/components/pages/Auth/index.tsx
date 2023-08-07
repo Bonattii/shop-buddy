@@ -13,7 +13,7 @@ const AuthContent = () => {
     <div className="w-100% h-screen">
       {/* TODO: ADD LOGO */}
       <div className="bg-black md:bg-transparent w-full h-full">
-        <nav className="px-12 py-5 mb-12">
+        <nav className="px-12 py-5 -mb-8">
           <Link href="/" className={`${manrope.className} text-white text-xl`}>
             ShopBuddy
           </Link>
@@ -97,7 +97,7 @@ const AuthContent = () => {
                 {authVariation === 'login' ? 'Login' : 'Sign Up'}
               </button>
 
-              <p className="text-neutral-300 mt-12">
+              <p className="text-neutral-300 mt-4">
                 {authVariation === 'login'
                   ? 'First time here?'
                   : 'Already have an account?'}
