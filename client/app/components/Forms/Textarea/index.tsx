@@ -1,8 +1,8 @@
-import { InputProps } from './types';
+import { TextareaProps } from '../types';
 
-const Input = ({ label, inputId, error, ...rest }: InputProps) => (
+const Textarea = ({ label, inputId, error, ...rest }: TextareaProps) => (
   <div className="relative">
-    <input
+    <textarea
       {...rest}
       id={inputId}
       className="
@@ -19,6 +19,7 @@ const Input = ({ label, inputId, error, ...rest }: InputProps) => (
           focus:outline-none
           focus:ring-0
           peer
+          resize-none
         "
       placeholder=" "
     />
@@ -52,4 +53,4 @@ const Input = ({ label, inputId, error, ...rest }: InputProps) => (
   </div>
 );
 
-export default Input;
+export default Textarea;

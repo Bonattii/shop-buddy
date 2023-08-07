@@ -4,7 +4,8 @@ import Link from 'next/link';
 import { manrope } from '../../../fonts';
 
 import useAuthContent from './controller';
-import Input from '../../Input';
+import Input from '../../Forms/Input';
+import FormButton from '../../Buttons/FormButton';
 
 const AuthContent = () => {
   const { authVariation, toggleVariation, formik } = useAuthContent();
@@ -90,12 +91,10 @@ const AuthContent = () => {
                 )}
               </div>
 
-              <button
+              <FormButton
                 type="submit"
-                className="font-semibold mt-10 rounded-md w-full py-3 bg-gradient-to-r from-indigo-950 to-indigo-700 hover:from-indigo-700 hover:to-indigo-950 text-white transition"
-              >
-                {authVariation === 'login' ? 'Login' : 'Sign Up'}
-              </button>
+                title={authVariation === 'login' ? 'Login' : 'Sign Up'}
+              />
 
               <p className="text-neutral-300 mt-4">
                 {authVariation === 'login'

@@ -17,17 +17,17 @@ import LinkButton from '../Buttons/LinkButton';
 const navigation = [
   {
     name: 'Home',
-    href: '/',
+    href: '#home',
     icon: <HomeIcon className="h-6 w-6" />
   },
   {
     name: 'About',
-    href: '/about',
+    href: '#about',
     icon: <IdentificationIcon className="h-6 w-6" />
   },
   {
     name: 'Contact Us',
-    href: '/Contact Us',
+    href: '#contact',
     icon: <EnvelopeIcon className="h-6 w-6" />
   }
 ];

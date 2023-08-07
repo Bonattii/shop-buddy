@@ -5,3 +5,10 @@ export interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
   inputId: string;
   error?: string | boolean;
 }
+
+export interface TextareaProps
+  extends InputHTMLAttributes<HTMLTextAreaElement> {
+  label: string;
+  inputId: string;
+  error?: string | boolean;
+}
