@@ -4,21 +4,32 @@ import Link from 'next/link';
 import { useState } from 'react';
 import { Dialog } from '@headlessui/react';
 import { lora, montserrat } from '@/app/fonts';
-import { Bars3Icon, XMarkIcon } from '@heroicons/react/24/outline';
+import {
+  Bars3Icon,
+  XMarkIcon,
+  HomeIcon,
+  IdentificationIcon,
+  EnvelopeIcon
+} from '@heroicons/react/24/outline';
 
-import { HomeIcon } from '../icons/HomeIcon';
 import LinkButton from '../Buttons/LinkButton';
-import { ContactIcon } from '../icons/ContactIcon';
-import { IdentificationIcon } from '../icons/IdentificationIcon';
 
 const navigation = [
   {
     name: 'Home',
     href: '/',
-    icon: <HomeIcon />
+    icon: <HomeIcon className="h-6 w-6" />
   },
-  { name: 'About', href: '/about', icon: <IdentificationIcon /> },
-  { name: 'Contact Us', href: '/Contact Us', icon: <ContactIcon /> }
+  {
+    name: 'About',
+    href: '/about',
+    icon: <IdentificationIcon className="h-6 w-6" />
+  },
+  {
+    name: 'Contact Us',
+    href: '/Contact Us',
+    icon: <EnvelopeIcon className="h-6 w-6" />
+  }
 ];
 
 export default function Header() {
