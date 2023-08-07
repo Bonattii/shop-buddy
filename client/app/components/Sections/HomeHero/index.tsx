@@ -29,9 +29,9 @@ const HomeHero = () => (
     </div>
 
     <div className="pb-36 md:pb-40 lg:pb-0 flex gap-x-2 md:gap-x-3 mt-10 justify-center lg:justify-start">
-      <LinkButton authType="register" title="Welcome Back" />
+      <LinkButton authType="login" title="Welcome Back" />
 
-      <LinkButton type="outlined" authType="login" title="Start" />
+      <LinkButton type="outlined" authType="register" title="Start" />
     </div>
 
     <div className="-mt-36 flex justify-center items-center lg:flex lg:justify-end">
