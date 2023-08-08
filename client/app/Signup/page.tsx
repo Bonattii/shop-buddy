@@ -98,7 +98,7 @@ export default function Page() {
             }}
             className="w-80 text-slate-100 py-2 px-3 border border-white bg-black rounded-md text-gray 700"
             type="text"
-            placeholder="example@mail.com / (xx) xxxxx-xxxx"
+            placeholder="example@mail.com"
           />
         </div>
         <div className="mt-4 w-80">
@@ -115,7 +115,7 @@ export default function Page() {
             }}
             className="w-80 text-slate-100 py-2 px-3 border border-white bg-black rounded-md text-gray 700"
             type="text"
-            placeholder="example@mail.com / (xx) xxxxx-xxxx"
+            placeholder="(xx) xxxxx-xxxx"
           />
         </div>
         <div className="mt-4 w-80">
