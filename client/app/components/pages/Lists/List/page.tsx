@@ -96,7 +96,9 @@ const ListContent = ({ params: { id, title } }: ListProps) => {
                   ) : (
                     <p
                       onClick={() => handleItemNameClick(listItem.id)}
-                      className="text-white capitalize text-lg group-data-[state=checked]:line-through group-data-[state=checked]:text-gray-500 w-full cursor-pointer"
+                      className={`text-white capitalize text-lg w-full cursor-pointer ${
+                        listItem.isBought ? 'line-through text-gray-500' : ''
+                      }`}
                     >
                       {listItem.itemName}
                     </p>
