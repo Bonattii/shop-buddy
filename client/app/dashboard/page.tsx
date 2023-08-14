@@ -14,6 +14,8 @@ import {
 import { CreateListModal } from '../components/Modal/CreateListModal';
 import { api } from '../server/api';
 import { getTokenFromLocalStorage } from '../utils/storage';
+import { AvatarImageByName } from '../components/AvatarImageByName';
+import { AVATAR_COLORS } from '../utils/avatarColors';
 
 interface List {
   id: string;
@@ -68,7 +70,7 @@ export default function Page() {
         headers: { Authorization: `Bearer ${getTokenFromLocalStorage()}` },
       })
       .then((response) => setLists(response.data));
-  }, [lists]);
+  }, []);
 
   return (
     <div className="pt-10  w-100% h-screen">
@@ -130,20 +132,22 @@ export default function Page() {
           {lists.map((list, index) => (
             <li
               key={index}
-              className={`flex space-y-10 ${index === 0 ? 'first:pt-0' : ''} ${
+              className={`  ${index === 0 ? 'first:pt-0' : ''} ${
                 index === lists.length - 1 ? 'last:pb-0' : ''
               }`}>
-              <div className="pt-8">
-                <img
-                  src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSteItzPyeDKBxyWiOA8xrPZXIlxOYv1b1VVg&usqp=CAU"
-                  alt=""
-                  className="h-10 w-10 rounded-full"
-                />
-              </div>
               <div className="ml-3 overflow-hidden ">
                 <p className={`${noto_sans.className} text-xl text-white`}>
                   {list.title}
                 </p>
+              </div>
+              <div className="pt-2 relative flex w-full ">
+                {list.users.map((user, index) => (
+                  <AvatarImageByName
+                    key={user.id}
+                    name={user.name}
+                    color={AVATAR_COLORS[index]}
+                  />
+                ))}
               </div>
             </li>
           ))}
