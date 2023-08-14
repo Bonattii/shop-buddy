@@ -1,7 +1,6 @@
 'use client';
 import { noto_sans } from '../fonts';
 import React, { useEffect } from 'react';
-import Image from 'next/image';
 import { useState } from 'react';
 import { Dialog } from '@headlessui/react';
 import { Bars3Icon, XMarkIcon } from '@heroicons/react/24/outline';
@@ -74,7 +73,7 @@ export default function Page() {
 
   return (
     <div className="pt-10  w-100% h-screen">
-      <div className="flex justify-between pb-14 mx-10">
+      <div className="flex justify-between pb-14 ">
         <CreateListModal />
         <button
           type="button"
@@ -122,21 +121,20 @@ export default function Page() {
           </div>
         </Dialog.Panel>
       </Dialog>
-      <div className="pb-20 justify-center flex flex-col items-center max-w-lg mx-auto rounded-2xl">
-        <h1
-          className={`${noto_sans.className} pt-14 text-white text-4xl pb-10`}>
-          Lists
-        </h1>
-
-        <ul role="list" className=" divide-y divide-slate-200 space-y-10">
+      <h1
+        className={`${noto_sans.className} flex justify-center items-center text-white text-4xl pb-8`}>
+        Lists
+      </h1>
+      <div className="pb-20 justify-center flex flex-col items-center  rounded-2xl w-100% bg-zinc-900">
+        <ul role="list" className=" divide-y divide-slate-200 space-y-8">
           {lists.map((list, index) => (
             <li
               key={index}
               className={`  ${index === 0 ? 'first:pt-0' : ''} ${
                 index === lists.length - 1 ? 'last:pb-0' : ''
               }`}>
-              <div className="ml-3 overflow-hidden ">
-                <p className={`${noto_sans.className} text-xl text-white`}>
+              <div className=" pt-8 overflow-hidden ">
+                <p className={`${noto_sans.className} text-2xl text-white`}>
                   {list.title}
                 </p>
               </div>
