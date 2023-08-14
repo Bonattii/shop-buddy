@@ -10,7 +10,7 @@ interface User {
 }
 
 interface ModalSelectProps {
-  addToList: any;
+  addToList: (value: User) => {};
 }
 
 export default function ModalSelect({ addToList }: ModalSelectProps) {
@@ -41,7 +41,7 @@ export default function ModalSelect({ addToList }: ModalSelectProps) {
       <Combobox
         value={selected}
         onChange={(value) => {
-          addToList(value);
+          addToList(value!);
           setSelected(null);
         }}>
         <div className="relative mt-4">
