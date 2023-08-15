@@ -71,7 +71,13 @@ const ListContent = ({ params: { id, title } }: ListProps) => {
                     className="group focus:outline-none disabled:cursor-not-allowed "
                   >
                     <div className="flex items-center gap-3">
-                      <div className="h-6 w-6 rounded-full flex items-center justify-center bg-zinc-900 border-2 border-gray-400 group-data-[state=checked]:bg-purple-700 group-data-[state=checked]:border-purple-700 transition-colors ">
+                      <div
+                        className={`h-6 w-6 rounded-full flex items-center justify-center border-2 transition-colors ${
+                          listItem.isBought
+                            ? 'bg-purple-700 border-purple-700'
+                            : 'border-gray-400 bg-zinc-900'
+                        }`}
+                      >
                         <Checkbox.Indicator>
                           <CheckIcon className="h-5 w-5 text-white" />
                         </Checkbox.Indicator>
@@ -96,8 +102,10 @@ const ListContent = ({ params: { id, title } }: ListProps) => {
                   ) : (
                     <p
                       onClick={() => handleItemNameClick(listItem.id)}
-                      className={`text-white capitalize text-lg w-full cursor-pointer ${
-                        listItem.isBought ? 'line-through text-gray-500' : ''
+                      className={`capitalize text-lg w-full cursor-pointer ${
+                        listItem.isBought
+                          ? 'line-through text-gray-500'
+                          : 'text-white'
                       }`}
                     >
                       {listItem.itemName}
