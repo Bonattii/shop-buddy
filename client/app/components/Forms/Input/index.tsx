@@ -1,11 +1,17 @@
 import { InputProps } from '../types';
 
-const Input = ({ label, inputId, error, ...rest }: InputProps) => (
+const Input = ({
+  label,
+  inputId,
+  error,
+  editForm = false,
+  ...rest
+}: InputProps) => (
   <div className="relative">
     <input
       {...rest}
       id={inputId}
-      className="
+      className={`
           block
           rounded-md
           px-6
@@ -14,12 +20,13 @@ const Input = ({ label, inputId, error, ...rest }: InputProps) => (
           w-full
           text-md
           text-white
-          bg-neutral-900
           appearance-none
           focus:outline-none
           focus:ring-0
           peer
-        "
+
+          ${editForm ? 'border-[1px] bg-transparent' : 'bg-neutral-900'}
+        `}
       placeholder=" "
     />
 
@@ -27,7 +34,6 @@ const Input = ({ label, inputId, error, ...rest }: InputProps) => (
       className={`
           absolute
           text-md
-          text-zinc-500
           duration-150
           transform
           -translate-y-3
@@ -40,6 +46,8 @@ const Input = ({ label, inputId, error, ...rest }: InputProps) => (
           peer-placeholder-shown:translate-y-0
           peer-focus:scale-75
           peer-focus:-translate-y-3
+
+          ${editForm ? 'text-zinc-300' : 'text-zinc-500'}
         `}
       htmlFor={inputId}
     >

@@ -6,15 +6,20 @@ import { Dialog } from '@headlessui/react';
 import { Bars3Icon, XMarkIcon } from '@heroicons/react/24/outline';
 import Link from 'next/link';
 import {
-  WrenchScrewdriverIcon,
   UserIcon,
-  ArrowRightOnRectangleIcon,
+  ArrowRightOnRectangleIcon
 } from '@heroicons/react/24/outline';
 import { CreateListModal } from '../components/Modal/CreateListModal';
 import { api } from '../server/api';
-import { getTokenFromLocalStorage } from '../utils/storage';
+import {
+  getTokenFromLocalStorage,
+  removeTokenFromLocalStorage
+} from '../utils/storage';
 import { AvatarImageByName } from '../components/AvatarImageByName';
 import { AVATAR_COLORS } from '../utils/avatarColors';
+import jwtDecode from 'jwt-decode';
+import { UserToken } from '../types/token';
+import { useRouter } from 'next/navigation';
 
 interface List {
   id: string;
@@ -30,28 +35,27 @@ interface List {
 }
 
 const navigation = [
+  { name: 'Account', href: '/account', icon: <UserIcon className="w-6 h-6" /> },
   {
-    name: 'Setting',
-    href: '/',
-    icon: <WrenchScrewdriverIcon className="w-6 h-6" />,
-  },
-  { name: 'Account', href: '/about', icon: <UserIcon className="w-6 h-6" /> },
-  {
-    name: 'Exit',
-    href: '/Contact Us',
-    icon: <ArrowRightOnRectangleIcon className="w-6 h-6" />,
-  },
+    name: 'Logout',
+    href: 'logout',
+    icon: <ArrowRightOnRectangleIcon className="w-6 h-6" />
+  }
 ];
 
 interface ImageAccountProps {
-  imageUrl: string;
+  initial: string;
 }
 
-const ImageAccount: React.FC<ImageAccountProps> = ({ imageUrl }) => {
+const ImageAccount = ({ initial }: ImageAccountProps) => {
   return (
     <div className="flex justify-center pt-8">
-      <div className="h-24 w-24 rounded-full overflow-hidden">
-        <img src={imageUrl} alt="" className="h-full w-full object-cover" />
+      <div
+        className={`h-24 w-24 rounded-full overflow-hidden ${
+          AVATAR_COLORS[Math.floor(Math.random() * 18)]
+        } flex justify-center items-center`}
+      >
+        <p className="text-5xl">{initial}</p>
       </div>
     </div>
   );
@@ -60,15 +64,18 @@ const ImageAccount: React.FC<ImageAccountProps> = ({ imageUrl }) => {
 export default function Page() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [lists, setLists] = useState<List[]>([]);
-  const dummyImageUrl =
-    'https://images.unsplash.com/photo-1441441247730-d09529166668?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1174&q=80';
+  const router = useRouter();
+
+  const userToken = getTokenFromLocalStorage();
+  const userTokenDecoded: UserToken = jwtDecode(userToken as string);
+  const userName = userTokenDecoded.name;
 
   useEffect(() => {
     api
       .get('/lists', {
-        headers: { Authorization: `Bearer ${getTokenFromLocalStorage()}` },
+        headers: { Authorization: `Bearer ${getTokenFromLocalStorage()}` }
       })
-      .then((response) => setLists(response.data));
+      .then(response => setLists(response.data));
   }, []);
 
   return (
@@ -78,14 +85,17 @@ export default function Page() {
         <button
           type="button"
           className="-m-2.5 inline-flex items-center justify-center rounded-md p-2.5 text-white"
-          onClick={() => setMobileMenuOpen(true)}>
+          onClick={() => setMobileMenuOpen(true)}
+        >
           <span className="sr-only">Open main menu</span>
           <Bars3Icon className="text-white h-6 w-6" aria-hidden="true" />
         </button>
       </div>
+
       <Dialog as="div" open={mobileMenuOpen} onClose={setMobileMenuOpen}>
         <div className="fixed inset-0 z-10" />
-        <Dialog.Panel className="fixed inset-y-0 right-0 z-10 w-full overflow-y-auto bg-gray-200 px-6 py-6 sm:max-w-sm sm:ring-1 sm:ring-gray-900/10">
+
+        <Dialog.Panel className="fixed inset-y-0 right-0 z-10 w-full overflow-y-auto bg-zinc-800 px-6 py-6 sm:max-w-sm sm:ring-1 sm:ring-gray-900/10 text-white">
           <div className="flex items-center justify-between">
             <a href="#" className="-m-1.5 p-1.5">
               <span className="sr-only"></span>
@@ -93,36 +103,64 @@ export default function Page() {
             <button
               type="button"
               className="-m-2.5 rounded-md p-2.5 text-black"
-              onClick={() => setMobileMenuOpen(false)}>
+              onClick={() => setMobileMenuOpen(false)}
+            >
               <span className="sr-only">Close menu</span>
-              <XMarkIcon className="h-6 w-6" aria-hidden="true" />
+              <XMarkIcon className="h-6 w-6 text-white" aria-hidden="true" />
             </button>
           </div>
-          <div className="flex-col items-center">
-            <ImageAccount imageUrl={dummyImageUrl} />
+
+          <div className="flex-col items-center flex gap-3">
+            <ImageAccount initial={userName.charAt(0).toUpperCase()} />
             <div className="flex justify-center">
-              <p className="pt-1 text-md text-black"> Name</p>
+              <p className="pt-1 text-md">
+                {userName.charAt(0).toUpperCase() + userName.slice(1)}
+              </p>
             </div>
           </div>
+
           <div className="pl-5 mt-14 flow-root">
             <div className="-my-6 divide-y divide-gray-500/10">
-              <div className="space-y-8 py-6">
-                {navigation.map((item) => (
-                  <Link
-                    key={item.name}
-                    href={item.href}
-                    className={`${noto_sans.className} flex gap-3 -mx-3 rounded-md px-3 py-2.5 text-base font-semibold leading-7 text-black hover:bg-gray-300`}>
-                    {item.icon}
-                    {item.name}
-                  </Link>
+              <div className="py-6">
+                {navigation.map(item => (
+                  <>
+                    {item.href === 'logout' ? (
+                      <button
+                        key={item.name}
+                        className={`${noto_sans.className} flex gap-3 -mx-3 rounded-md px-3 py-2.5 text-base font-semibold leading-7  text-red-500 hover:text-red-600 w-full`}
+                        onClick={() => {
+                          removeTokenFromLocalStorage();
+                          router.push('/');
+                        }}
+                      >
+                        <div className="flex items-center gap-3">
+                          {item.icon}
+                          {item.name}
+                        </div>
+                      </button>
+                    ) : (
+                      <Link
+                        key={item.name}
+                        href={item.href}
+                        className={`${noto_sans.className} flex gap-3 -mx-3 rounded-md px-3 py-2.5 text-base font-semibold leading-7 hover:bg-purple-300 text-white hover:text-black`}
+                      >
+                        <div className="flex items-center gap-3">
+                          {item.icon}
+                          {item.name}
+                        </div>
+                      </Link>
+                    )}
+                  </>
                 ))}
               </div>
             </div>
           </div>
         </Dialog.Panel>
       </Dialog>
+
       <h1
-        className={`${noto_sans.className} flex justify-center items-center text-white text-4xl pb-8`}>
+        className={`${noto_sans.className} flex justify-center items-center text-white text-4xl pb-8`}
+      >
         Lists
       </h1>
       <div className="pb-20 justify-center flex flex-col items-center  rounded-2xl w-100% bg-zinc-900">
@@ -132,7 +170,8 @@ export default function Page() {
               key={index}
               className={`  ${index === 0 ? 'first:pt-0' : ''} ${
                 index === lists.length - 1 ? 'last:pb-0' : ''
-              }`}>
+              }`}
+            >
               <div className=" pt-8 overflow-hidden ">
                 <p className={`${noto_sans.className} text-2xl text-white`}>
                   {list.title}
