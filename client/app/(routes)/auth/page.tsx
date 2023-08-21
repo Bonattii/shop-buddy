@@ -1,11 +1,11 @@
 'use client';
 
 import Link from 'next/link';
-import { manrope } from '../../../fonts';
+import { manrope } from '@/app/styles/fonts';
 
 import useAuthContent from './controller';
-import Input from '../../Forms/Input';
-import FormButton from '../../Buttons/FormButton';
+import Input from '@/app/components/Forms/Input';
+import FormButton from '@/app/components/Buttons/FormButton';
 
 const AuthContent = () => {
   const { authVariation, toggleVariation, formik } = useAuthContent();
@@ -103,8 +103,7 @@ const AuthContent = () => {
 
                 <span
                   onClick={toggleVariation}
-                  className="text-white ml-1 hover:underline cursor-pointer"
-                >
+                  className="text-white ml-1 hover:underline cursor-pointer">
                   {authVariation === 'login' ? 'Create an account' : 'Login'}
                 </span>
               </p>

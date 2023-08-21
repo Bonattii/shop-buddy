@@ -1,11 +1,11 @@
 'use client';
 
 import Link from 'next/link';
-import FormButton from '../../Buttons/FormButton';
-import Input from '../../Forms/Input';
+import FormButton from '@/app/components/Buttons/FormButton';
+import Input from '@/app/components/Forms/Input';
 import useAccount from './controller';
 import { ArrowRightIcon } from '@heroicons/react/24/outline';
-import { manrope } from '@/app/fonts';
+import { manrope } from '@/app/styles/fonts';
 
 const AccountContent = () => {
   const { formattedUserName, formik, submitted } = useAccount();
@@ -15,8 +15,7 @@ const AccountContent = () => {
       <nav className="self-start pl-2 pb-4">
         <Link
           href="/dashboard"
-          className={`${manrope.className} text-white text-xl flex items-center gap-3`}
-        >
+          className={`${manrope.className} text-white text-xl flex items-center gap-3`}>
           Back to dashboard
           <ArrowRightIcon className="h-5 w-5" />
         </Link>
@@ -36,8 +35,7 @@ const AccountContent = () => {
 
           <form
             onSubmit={formik.handleSubmit}
-            className="space-y-4 md:space-y-6"
-          >
+            className="space-y-4 md:space-y-6">
             <Input
               label="Name"
               name="editName"
