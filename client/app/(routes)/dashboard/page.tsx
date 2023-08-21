@@ -18,7 +18,6 @@ import { DocIcon } from '@/app/components/icons/DocIcon';
 import { CreateListModal } from '@/app/components/Modal/CreateListModal';
 import { api } from '@/app/server/api';
 import { getTokenFromLocalStorage } from '@/app/utils/storage';
-import { dateFormatter } from '@/app/utils/dateFormatter';
 import { DropDown } from '@/app/components/DropDown';
 
 interface List {
@@ -159,7 +158,7 @@ export default function Page() {
 
                 <div className="pt-1 pl-2 flex text-sm gap-1">
                   <CalendarDaysIcon className="w-5 h-5" />
-                  {dateFormatter(list.createdAt)}
+                  {new Date(list.createdAt).toLocaleDateString()}
                 </div>
 
                 <div className="pt-2 pl-2 text-sm flex gap-1">

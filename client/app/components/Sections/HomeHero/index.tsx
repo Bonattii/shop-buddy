@@ -1,5 +1,5 @@
 import Image from 'next/image';
-import { lora, playfair_display } from '@/app/fonts';
+import { lora, playfair_display } from '@/app/styles/fonts';
 
 import homePage from '@/app/img/homePage.png';
 import LinkButton from '@/app/components/Buttons/LinkButton';
@@ -13,13 +13,11 @@ const HomeHero = () => (
     <div className="flex md:block justify-center xl:justify-between mt-0 md:mt-20">
       <div className="pt-0 md:pt-5 ">
         <h1
-          className={`${playfair_display.className} text-left text-white text-5xl sm:text-6xl md:text-7xl`}
-        >
+          className={`${playfair_display.className} text-left text-white text-5xl sm:text-6xl md:text-7xl`}>
           Create and Organize
         </h1>
         <h1
-          className={`${playfair_display.className} text-left pt-2 text-white text-5xl sm:text-7xl`}
-        >
+          className={`${playfair_display.className} text-left pt-2 text-white text-5xl sm:text-7xl`}>
           Shopping Lists
         </h1>
         <p className={`${lora.className} text-lg sm:text-xl text-white mt-6`}>
