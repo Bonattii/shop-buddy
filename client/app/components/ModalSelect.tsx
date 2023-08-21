@@ -24,7 +24,7 @@ export default function ModalSelect({ addToList }: ModalSelectProps) {
         headers: { Authorization: `Bearer ${getTokenFromLocalStorage()}` },
       })
       .then((response) => setOptions(response.data));
-  }, [options]);
+  }, []);
 
   const filteredList =
     query === ''

@@ -50,7 +50,9 @@ export function CreateListModal() {
           headers: { Authorization: `Bearer ${getTokenFromLocalStorage()}` },
         }
       )
-      .then((res) => closeModal());
+      .then((res) => {
+        closeModal();
+      });
   };
 
   return (

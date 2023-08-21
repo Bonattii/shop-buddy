@@ -14,9 +14,6 @@ interface DropDownProps {
 }
 
 export function DropDown({ listId }: DropDownProps) {
-  const router = useRouter();
-
-  router.refresh();
   const handleDeleteList = () => {
     api.delete(
       'lists/delete',
