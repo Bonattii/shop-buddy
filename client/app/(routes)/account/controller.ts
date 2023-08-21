@@ -1,7 +1,7 @@
 import { UserToken } from '@/app/types/token';
 import {
   getTokenFromLocalStorage,
-  saveTokenToLocalStorage
+  saveTokenToLocalStorage,
 } from '@/app/utils/storage';
 import jwtDecode from 'jwt-decode';
 import * as Yup from 'yup';
@@ -22,15 +22,15 @@ const useAccount = () => {
   const formik = useFormik({
     initialValues: {
       editName: userName,
-      editPhone: userPhone
+      editPhone: userPhone,
     },
     validationSchema: Yup.object({
       editName: Yup.string().required('Name is required'),
       editPhone: Yup.string()
         .matches(/^\d{10}$/, 'Phone number must be 10 digits')
-        .required('Phone is required')
+        .required('Phone is required'),
     }),
-    onSubmit: values => {
+    onSubmit: (values) => {
       setSubmitted(true);
 
       api
@@ -39,30 +39,30 @@ const useAccount = () => {
           {
             email: userTokenDecoded.email,
             name: values.editName,
-            phone: values.editPhone
+            phone: values.editPhone,
           },
           {
             headers: {
-              Authorization: `Bearer ${userToken}`
-            }
+              Authorization: `Bearer ${userToken}`,
+            },
           }
         )
-        .then(response => {
+        .then((response) => {
           saveTokenToLocalStorage(response.data.accessToken);
           setSubmitted(false);
           window.location.reload();
         })
-        .catch(error => {
+        .catch((error) => {
           setSubmitted(false);
           console.log(error);
         });
-    }
+    },
   });
 
   return {
     formik,
     formattedUserName,
-    submitted
+    submitted,
   };
 };
 

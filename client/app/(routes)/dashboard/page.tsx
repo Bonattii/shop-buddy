@@ -145,14 +145,14 @@ export default function Page() {
                   },
                 }}
                 as={`/lists/${list.title}/${list.id}`}
-                className="text-white mb-6 mr-8 pb-12 px-4 pt-2 cursor-pointer rounded-lg bg-colorDashboard hover:bg-neutral-800">
+                className="text-white mb-6 mr-8 pb-12 px-4 pt-2 cursor-pointer rounded-lg bg-[#171616] hover:bg-neutral-800">
                 <div className="flex  justify-between">
                   <div className="flex items-center ">
                     <DocIcon />
                     <p className={`${inter.className} text-xl`}>{list.title}</p>
                   </div>
                   <div className="items-center justify-center flex">
-                    <DropDown />
+                    <DropDown listId={list.id} />
                   </div>
                 </div>
 

@@ -10,7 +10,7 @@ interface User {
 }
 
 interface ModalSelectProps {
-  addToList: (value: User) => {};
+  addToList: (newUser: User) => void;
 }
 
 export default function ModalSelect({ addToList }: ModalSelectProps) {
