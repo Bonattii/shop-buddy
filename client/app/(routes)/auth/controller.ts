@@ -1,4 +1,4 @@
-import { useCallback } from 'react';
+import { useCallback, useState } from 'react';
 import { api } from '@/app/server/api';
 import * as Yup from 'yup';
 import { useFormik } from 'formik';
@@ -12,18 +12,44 @@ const useAuthContent = () => {
 
   const router = useRouter();
 
+  const validationSchema = () => {
+    let schema = Yup.object().shape({
+      email: Yup.string()
+        .email('Invalid email address')
+        .required('Email is required'),
+      password: Yup.string()
+        .required('Password is required')
+        .matches(/^.{8,}$/, 'Password must be at least 8 characters long')
+    });
+
+    if (authVariation === 'register') {
+      schema = schema.shape({
+        name: Yup.string().required('Name is required'),
+        phone: Yup.string()
+          .matches(/^\d{10}$/, 'Phone number must be 10 digits')
+          .required('Phone number is required'),
+        confirmPassword: Yup.string()
+          .oneOf([Yup.ref('password')], 'Passwords must match')
+          .required('Confirm password is required')
+          .matches(/^.{8,}$/, 'Password must be at least 8 characters long')
+      });
+    }
+
+    return schema;
+  };
+
   const handleLoginSubmit = useCallback(
     (values: AuthFormValues) => {
       api
         .post('/users/login', {
           email: values.email,
-          password: values.password,
+          password: values.password
         })
-        .then((response) => {
+        .then(response => {
           saveTokenToLocalStorage(response.data.accessToken);
           router.push('/dashboard');
         })
-        .catch((error) => {
+        .catch(error => {
           console.error('Error:', error);
         });
     },
@@ -37,12 +63,12 @@ const useAuthContent = () => {
           name: values.name,
           email: values.email,
           phone: Number(values.phone),
-          password: values.password,
+          password: values.password
         })
         .then(() => {
           handleLoginSubmit(values);
         })
-        .catch((error) => {
+        .catch(error => {
           console.error('Error:', error);
         });
     },
@@ -63,37 +89,16 @@ const useAuthContent = () => {
       phone: '',
       email: '',
       password: '',
-      confirmPassword: '',
+      confirmPassword: ''
     },
-    validationSchema: Yup.object({
-      name: Yup.string().required('Name is required'),
-      phone: Yup.string()
-        .matches(/^\d{10}$/, 'Phone number must be 10 digits')
-        .required('Phone number is required'),
-      email: Yup.string()
-        .email('Invalid email address')
-        .required('Email is required'),
-      password: Yup.string()
-        .required('Password is required')
-        .matches(
-          /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#$%^&*()])[0-9a-zA-Z!@#$%^&*()]{8,}$/,
-          'Password must contain at least 1 number, 1 capital letter, 1 lowercase letter, 1 special character, and be at least 8 characters long'
-        ),
-      confirmPassword: Yup.string()
-        .oneOf([Yup.ref('password')], 'Passwords must match')
-        .required('Confirm password is required')
-        .matches(
-          /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#$%^&*()])[0-9a-zA-Z!@#$%^&*()]{8,}$/,
-          'Password must contain at least 1 number, 1 capital letter, 1 lowercase letter, 1 special character, and be at least 8 characters long'
-        ),
-    }),
-    onSubmit: onSubmit,
+    validationSchema: validationSchema(),
+    onSubmit: onSubmit
   });
 
   return {
     authVariation,
     toggleVariation,
-    formik,
+    formik
   };
 };
 
