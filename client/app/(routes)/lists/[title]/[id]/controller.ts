@@ -10,18 +10,20 @@ const useList = (listId: string, listTitle: string) => {
 
   // Get List Items from the server
   useEffect(() => {
-    api
-      .post(
-        '/listItems',
-        { listId },
-        {
-          headers: {
-            Authorization: `Bearer ${getTokenFromLocalStorage()}`
+    if (getTokenFromLocalStorage()) {
+      api
+        .post(
+          '/listItems',
+          { listId },
+          {
+            headers: {
+              Authorization: `Bearer ${getTokenFromLocalStorage()}`
+            }
           }
-        }
-      )
-      .then(response => setListItems(response.data))
-      .catch(error => console.error(error));
+        )
+        .then(response => setListItems(response.data))
+        .catch(error => console.error(error));
+    }
   }, [listId]);
 
   const handleToggleListItemBought = async (

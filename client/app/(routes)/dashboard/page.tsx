@@ -83,8 +83,10 @@ export default function Page() {
   };
 
   useEffect(() => {
-    getLists();
-  }, []);
+    if (userToken) {
+      getLists();
+    }
+  }, [userToken]);
 
   if (!userToken) {
     return <ProtectRoute />;
