@@ -18,7 +18,7 @@ const ListContent = ({ params: { id, title } }: ListPageProps) => {
     editableItemId,
     handleEditItemName,
     handleItemNameClick,
-    setEditableItemId,
+    setEditableItemId
   } = useList(id, title);
 
   return (
@@ -26,7 +26,8 @@ const ListContent = ({ params: { id, title } }: ListPageProps) => {
       <nav className="self-start pl-3">
         <Link
           href="/dashboard"
-          className={`${manrope.className} text-white text-xl flex items-center gap-3`}>
+          className={`${manrope.className} text-white text-xl flex items-center gap-3`}
+        >
           Back to dashboard
           <ArrowRightIcon className="h-5 w-5" />
         </Link>
@@ -34,7 +35,7 @@ const ListContent = ({ params: { id, title } }: ListPageProps) => {
 
       <div className="bg-zinc-900 rounded-lg px-8 lg:px-12 py-8 lg:py-12 min-h-[600px] max-h-[600px] w-full overflow-auto scrollbar-hide">
         <h1 className="text-white text-2xl capitalize leading-loose">
-          {title}
+          {title.replace(/%20/g, ' ')}
         </h1>
 
         <div className="mt-8 mx-4">
@@ -53,10 +54,11 @@ const ListContent = ({ params: { id, title } }: ListPageProps) => {
             </form>
           ) : (
             <>
-              {listItems.map((listItem) => (
+              {listItems.map(listItem => (
                 <div
                   key={listItem.id}
-                  className="flex items-center mb-2 mr-3 gap-3">
+                  className="flex items-center mb-2 mr-3 gap-3"
+                >
                   <Checkbox.Root
                     onCheckedChange={() =>
                       handleToggleListItemBought(
@@ -66,14 +68,16 @@ const ListContent = ({ params: { id, title } }: ListPageProps) => {
                       )
                     }
                     checked={listItem.isBought}
-                    className="group focus:outline-none disabled:cursor-not-allowed ">
+                    className="group focus:outline-none disabled:cursor-not-allowed "
+                  >
                     <div className="flex items-center gap-3">
                       <div
                         className={`h-6 w-6 rounded-full flex items-center justify-center border-2 transition-colors ${
                           listItem.isBought
                             ? 'bg-purple-700 border-purple-700'
                             : 'border-gray-400 bg-zinc-900'
-                        }`}>
+                        }`}
+                      >
                         <Checkbox.Indicator>
                           <CheckIcon className="h-5 w-5 text-white" />
                         </Checkbox.Indicator>
@@ -102,7 +106,8 @@ const ListContent = ({ params: { id, title } }: ListPageProps) => {
                         listItem.isBought
                           ? 'line-through text-gray-500'
                           : 'text-white'
-                      }`}>
+                      }`}
+                    >
                       {listItem.itemName}
                     </p>
                   )}
