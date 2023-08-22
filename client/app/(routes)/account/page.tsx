@@ -17,7 +17,8 @@ const AccountContent = () => {
       <nav className="self-start pl-4 pb-4">
         <Link
           href="/dashboard"
-          className={`${manrope.className} text-white text-xl flex items-center gap-3`}>
+          className={`${manrope.className} text-white text-xl flex items-center gap-3`}
+        >
           <ChevronLeftIcon className="h-5 w-5" />
         </Link>
       </nav>
@@ -31,7 +32,8 @@ const AccountContent = () => {
             <button
               type="submit"
               disabled={submitted}
-              title={submitted ? 'Editing...' : 'Edit Profile'}>
+              title={submitted ? 'Editing...' : 'Edit Profile'}
+            >
               <PencilSquareIcon className="h-7 w-7 text-white" />
             </button>
           </form>
@@ -54,23 +56,24 @@ const AccountContent = () => {
                   error={formik.touched.editName && formik.errors.editName}
                   editForm
                 />
+                <Input
+                  label="Phone"
+                  name="editPhone"
+                  inputId="editPhone"
+                  value={formik.values.editPhone}
+                  onChange={formik.handleChange}
+                  onBlur={formik.handleBlur}
+                  error={formik.touched.editPhone && formik.errors.editPhone}
+                  editForm
+                />
+                <button
+                  type="submit"
+                  className="font-semibold rounded-md w-full py-3 bg-gradient-to-r from-indigo-950 to-indigo-900 hover:from-indigo-900 hover:to-indigo-950 text-white transition"
+                >
+                  {' '}
+                  Confirm
+                </button>
               </form>
-              <Input
-                label="Phone"
-                name="editPhone"
-                inputId="editPhone"
-                value={formik.values.editPhone}
-                onChange={formik.handleChange}
-                onBlur={formik.handleBlur}
-                error={formik.touched.editPhone && formik.errors.editPhone}
-                editForm
-              />
-              <button
-                type="submit"
-                className="font-semibold rounded-md w-full py-3 bg-gradient-to-r from-indigo-950 to-indigo-900 hover:from-indigo-900 hover:to-indigo-950 text-white transition">
-                {' '}
-                Confirm
-              </button>
             </div>
             <div className={`hidden sm:block `}>
               <Image
