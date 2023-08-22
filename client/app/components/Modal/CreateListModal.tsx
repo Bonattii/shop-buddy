@@ -2,14 +2,12 @@ import { Dialog, Transition } from '@headlessui/react';
 import { Fragment, useEffect, useState } from 'react';
 import { PlusIcon, XMarkIcon } from '@heroicons/react/24/outline';
 import { api } from '../../server/api';
-import { ListValues } from './types';
 import ModalSelect from '../ModalSelect';
 import { getTokenFromLocalStorage } from '@/app/utils/storage';
 
 interface User {
   id: string;
   name: string;
-  isSelected: boolean;
 }
 
 export function CreateListModal() {
@@ -28,7 +26,6 @@ export function CreateListModal() {
   function addUserToListOfSelectedUsers(newUser: User) {
     const found = listOfSelectedUsers.find((user) => user.id === newUser.id);
     if (!found) {
-      newUser.isSelected = true;
       setListOfSelectedUsers([...listOfSelectedUsers, newUser]);
     }
   }
@@ -53,7 +50,9 @@ export function CreateListModal() {
           headers: { Authorization: `Bearer ${getTokenFromLocalStorage()}` },
         }
       )
-      .then((res) => closeModal());
+      .then((res) => {
+        closeModal();
+      });
   };
 
   return (
@@ -61,8 +60,8 @@ export function CreateListModal() {
       <button
         type="button"
         onClick={openModal}
-        className="flex space-x-1 font-semibold mt-2 rounded-full px-4 py-3 bg-gradient-to-r from-indigo-950 to-indigo-700 hover:from-indigo-900 hover:to-indigo-900 text-white ...">
-        <PlusIcon className="w-5 h-5 mr-2" />
+        className="ml-12 flex space-x-1 font-semibold mt-2 rounded-full px-3 py-2 bg-gradient-to-r from-indigo-950 to-indigo-700 hover:from-indigo-900 hover:to-indigo-900 text-white text-sm ...">
+        <PlusIcon className="w-4 h-4 mr-1" />
         New List
       </button>
 
@@ -116,9 +115,7 @@ export function CreateListModal() {
                             deleteUserFromListOfSelectedUsers(user.id)
                           }
                           className={
-                            user.isSelected
-                              ? 'bg-gray-700 text-gray-300 list-none px-3 py-1 mr-1 mt-2 space-x-2 cursor-pointer rounded-md inline-flex items-center hover:opacity-75'
-                              : ''
+                            'bg-gray-700 text-gray-300 list-none px-3 py-1 mr-1 mt-2 space-x-2 cursor-pointer rounded-md inline-flex items-center hover:opacity-75'
                           }>
                           <span>{user.name}</span>
                           <XMarkIcon className="w-4 h-4 text-slate-300" />

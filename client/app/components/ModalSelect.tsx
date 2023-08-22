@@ -10,7 +10,7 @@ interface User {
 }
 
 interface ModalSelectProps {
-  addToList: (value: User) => {};
+  addToList: (newUser: User) => void;
 }
 
 export default function ModalSelect({ addToList }: ModalSelectProps) {
@@ -24,7 +24,7 @@ export default function ModalSelect({ addToList }: ModalSelectProps) {
         headers: { Authorization: `Bearer ${getTokenFromLocalStorage()}` },
       })
       .then((response) => setOptions(response.data));
-  }, [options]);
+  }, []);
 
   const filteredList =
     query === ''
