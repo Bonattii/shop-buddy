@@ -7,6 +7,8 @@ import { CheckIcon, ArrowRightIcon } from '@heroicons/react/24/outline';
 import { ChangeEvent } from 'react';
 import Link from 'next/link';
 import { manrope } from '@/app/styles/fonts';
+import { getTokenFromLocalStorage } from '@/app/utils/storage';
+import ProtectRoute from '@/app/components/ProtectRoute';
 
 const ListContent = ({ params: { id, title } }: ListPageProps) => {
   const {
@@ -20,6 +22,12 @@ const ListContent = ({ params: { id, title } }: ListPageProps) => {
     handleItemNameClick,
     setEditableItemId
   } = useList(id, title);
+
+  const userToken = getTokenFromLocalStorage();
+
+  if (!userToken) {
+    return <ProtectRoute />;
+  }
 
   return (
     <div className="content-container mx-0 md:mx-36 lg:mx-48 xl:mx-72 2xl:mx-80 pt-12 min-h-screen flex flex-col items-center justify-center gap-3">

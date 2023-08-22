@@ -24,6 +24,7 @@ import { AVATAR_COLORS } from '@/app/utils/avatarColors';
 import { useRouter } from 'next/navigation';
 import { UserToken } from '@/app/types/token';
 import jwtDecode from 'jwt-decode';
+import ProtectRoute from '@/app/components/ProtectRoute';
 
 interface List {
   id: string;
@@ -72,8 +73,6 @@ export default function Page() {
   const router = useRouter();
 
   const userToken = getTokenFromLocalStorage();
-  const userTokenDecoded: UserToken = jwtDecode(userToken as string);
-  const userName = userTokenDecoded.name;
 
   const getLists = () => {
     api
@@ -86,6 +85,13 @@ export default function Page() {
   useEffect(() => {
     getLists();
   }, []);
+
+  if (!userToken) {
+    return <ProtectRoute />;
+  }
+
+  const userTokenDecoded: UserToken = jwtDecode(userToken as string);
+  const userName = userTokenDecoded.name;
 
   return (
     <div className="pt-10  w-100% ">

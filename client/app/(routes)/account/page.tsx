@@ -1,16 +1,23 @@
 'use client';
 
 import Link from 'next/link';
-import FormButton from '@/app/components/Buttons/FormButton';
 import Image from 'next/image';
 import userProfile from '@/app/img/userProfile.png';
 import Input from '@/app/components/Forms/Input';
 import useAccount from './controller';
 import { ChevronLeftIcon, PencilSquareIcon } from '@heroicons/react/24/outline';
 import { manrope } from '@/app/styles/fonts';
+import { getTokenFromLocalStorage } from '@/app/utils/storage';
+import ProtectRoute from '@/app/components/ProtectRoute';
 
 const AccountContent = () => {
   const { formattedUserName, formik, submitted } = useAccount();
+
+  const userToken = getTokenFromLocalStorage();
+
+  if (!userToken) {
+    return <ProtectRoute />;
+  }
 
   return (
     <div className="content-container mx-0 md:mx-36 lg:mx-48 xl:mx-72 2xl:mx-80  min-h-screen flex flex-col items-center justify-center gap-3 ">
