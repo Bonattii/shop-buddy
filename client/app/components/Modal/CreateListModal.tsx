@@ -10,7 +10,11 @@ interface User {
   name: string;
 }
 
-export function CreateListModal() {
+interface CreateListModalProps {
+  onUpdate: () => void;
+}
+
+export function CreateListModal({ onUpdate }: CreateListModalProps) {
   let [isOpen, setIsOpen] = useState(false);
   let [title, setTitle] = useState('');
   let [listOfSelectedUsers, setListOfSelectedUsers] = useState<User[]>([]);
@@ -51,6 +55,7 @@ export function CreateListModal() {
         }
       )
       .then(res => {
+        onUpdate();
         closeModal();
       });
   };

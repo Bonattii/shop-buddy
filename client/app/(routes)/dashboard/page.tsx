@@ -10,7 +10,7 @@ import {
   ArrowRightOnRectangleIcon,
   ArrowDownIcon,
   UsersIcon,
-  CalendarDaysIcon,
+  CalendarDaysIcon
 } from '@heroicons/react/24/outline';
 import { DocIcon } from '@/app/components/icons/DocIcon';
 import { CreateListModal } from '@/app/components/Modal/CreateListModal';
@@ -75,18 +75,22 @@ export default function Page() {
   const userTokenDecoded: UserToken = jwtDecode(userToken as string);
   const userName = userTokenDecoded.name;
 
-  useEffect(() => {
+  const getLists = () => {
     api
       .get('/lists', {
         headers: { Authorization: `Bearer ${getTokenFromLocalStorage()}` }
       })
       .then(response => setLists(response.data));
+  };
+
+  useEffect(() => {
+    getLists();
   }, []);
 
   return (
     <div className="pt-10  w-100% ">
       <div className="flex justify-between pb-10 ">
-        <CreateListModal />
+        <CreateListModal onUpdate={getLists} />
         <button
           type="button"
           className="pr-6 inline-flex items-center justify-center rounded-md text-white"
