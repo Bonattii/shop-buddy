@@ -21,6 +21,7 @@ export async function updateList(title: string, id: string, userIDs: string[]) {
   return await prisma.list.update({
     data: {
       title: data.title,
+      userIDs: data.userIDs,
     },
     where: {
       id: data.id,
