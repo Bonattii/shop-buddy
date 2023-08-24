@@ -20,7 +20,7 @@ interface DropDownProps {
   listOfUsers: any;
 }
 
-export function DropDown({
+const DropDown = ({
   onUpdate,
   listId,
   setselectedListOfSelectedUsers,
@@ -29,9 +29,9 @@ export function DropDown({
   setIsOpen,
   titleProp,
   listOfUsers
-}: DropDownProps) {
+}: DropDownProps) => {
   const handleDeleteList = () => {
-    api
+  api
       .delete(
         'lists/delete',
 
@@ -73,7 +73,6 @@ export function DropDown({
                     onClick={e => {
                       e.preventDefault();
                       close();
-
                       setselectedTitle(titleProp);
                       setselectedid(listId);
                       setselectedListOfSelectedUsers(listOfUsers);
@@ -124,7 +123,7 @@ export function DropDown({
       </Menu>
     </div>
   );
-}
+};
 
 export function EditInactiveIcon(props: IconProps) {
   return (
@@ -140,54 +139,6 @@ export function EditInactiveIcon(props: IconProps) {
         stroke="#6240DC"
         strokeWidth="2"
       />
-    </svg>
-  );
-}
-
-function EditActiveIcon(props: IconProps) {
-  return (
-    <svg
-      {...props}
-      viewBox="0 0 20 20"
-      fill="none"
-      xmlns="http://www.w3.org/2000/svg"
-    >
-      <path
-        d="M4 13V16H7L16 7L13 4L4 13Z"
-        fill="#7C5CF2"
-        stroke="#C4B5FD"
-        strokeWidth="2"
-      />
-    </svg>
-  );
-}
-
-function MoveInactiveIcon(props: IconProps) {
-  return (
-    <svg
-      {...props}
-      viewBox="0 0 20 20"
-      fill="none"
-      xmlns="http://www.w3.org/2000/svg"
-    >
-      <path d="M10 4H16V10" stroke="#A78BFA" strokeWidth="2" />
-      <path d="M16 4L8 12" stroke="#A78BFA" strokeWidth="2" />
-      <path d="M8 6H4V16H14V12" stroke="#A78BFA" strokeWidth="2" />
-    </svg>
-  );
-}
-
-function MoveActiveIcon(props: IconProps) {
-  return (
-    <svg
-      {...props}
-      viewBox="0 0 20 20"
-      fill="none"
-      xmlns="http://www.w3.org/2000/svg"
-    >
-      <path d="M10 4H16V10" stroke="#C4B5FD" strokeWidth="2" />
-      <path d="M16 4L8 12" stroke="#C4B5FD" strokeWidth="2" />
-      <path d="M8 6H4V16H14V12" stroke="#C4B5FD" strokeWidth="2" />
     </svg>
   );
 }
@@ -237,3 +188,5 @@ function DeleteActiveIcon(props: IconProps) {
     </svg>
   );
 }
+
+export default DropDown;

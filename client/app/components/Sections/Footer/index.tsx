@@ -1,5 +1,3 @@
-import {} from '@heroicons/react/24/outline';
-
 const Footer = () => (
   <footer className="py-8 p-6">
     <div className="flex items-center justify-center">

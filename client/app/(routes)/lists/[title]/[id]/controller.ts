@@ -1,9 +1,9 @@
-import { ChangeEvent, FormEvent, useEffect, useRef, useState } from 'react';
+import { FormEvent, useEffect, useState } from 'react';
 import { ListItem } from './types';
 import { api } from '@/app/server/api';
 import { getTokenFromLocalStorage } from '@/app/utils/storage';
 
-const useList = (listId: string, listTitle: string) => {
+const useList = (listId: string) => {
   const [listItems, setListItems] = useState<ListItem[]>([]);
   const [listItemNameForm, setListItemNameForm] = useState('');
   const [editableItemId, setEditableItemId] = useState<string | null>(null);

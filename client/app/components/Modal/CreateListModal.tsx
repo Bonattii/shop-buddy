@@ -1,5 +1,5 @@
 import { Dialog, Transition } from '@headlessui/react';
-import { Fragment, useEffect, useState } from 'react';
+import { Fragment, useState } from 'react';
 import { PlusIcon, XMarkIcon } from '@heroicons/react/24/outline';
 import { api } from '../../server/api';
 import ModalSelect from '../ModalSelect';
@@ -14,7 +14,7 @@ interface CreateListModalProps {
   onUpdate: () => void;
 }
 
-export function CreateListModal({ onUpdate }: CreateListModalProps) {
+const CreateListModal = ({ onUpdate }: CreateListModalProps) => {
   let [isOpen, setIsOpen] = useState(false);
   let [title, setTitle] = useState('');
   let [listOfSelectedUsers, setListOfSelectedUsers] = useState<User[]>([]);
@@ -163,4 +163,6 @@ export function CreateListModal({ onUpdate }: CreateListModalProps) {
       </Transition>
     </>
   );
-}
+};
+
+export default CreateListModal;

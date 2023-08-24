@@ -21,7 +21,7 @@ const ListContent = ({ params: { id, title } }: ListPageProps) => {
     handleEditItemName,
     handleItemNameClick,
     setEditableItemId
-  } = useList(id, title);
+  } = useList(id);
 
   const userToken = getTokenFromLocalStorage();
 

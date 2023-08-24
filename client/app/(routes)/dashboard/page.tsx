@@ -13,14 +13,14 @@ import {
   CalendarDaysIcon
 } from '@heroicons/react/24/outline';
 import { DocIcon } from '@/app/components/icons/DocIcon';
-import { CreateListModal } from '@/app/components/Modal/CreateListModal';
-import { UpdateListModal } from '@/app/components/Modal/UpdateListModal';
+import CreateListModal from '@/app/components/Modal/CreateListModal';
+import UpdateListModal from '@/app/components/Modal/UpdateListModal';
 import { api } from '@/app/server/api';
 import {
   getTokenFromLocalStorage,
   removeTokenFromLocalStorage
 } from '@/app/utils/storage';
-import { DropDown } from '@/app/components/DropDown';
+import DropDown from '@/app/components/DropDown';
 import { AVATAR_COLORS } from '@/app/utils/avatarColors';
 import { useRouter } from 'next/navigation';
 import { UserToken } from '@/app/types/token';
@@ -72,7 +72,7 @@ const ImageAccount: React.FC<ImageAccountProps> = ({ initial }) => {
   );
 };
 
-export default function Page() {
+const DashboardPage = () => {
   let [isModalOpen, setIsModalOpen] = useState(false);
   let [selectedtitle, setselectedTitle] = useState('');
   let [selectedid, setselectedid] = useState('');
@@ -116,7 +116,9 @@ export default function Page() {
         <UpdateListModal
           listId={selectedid}
           titleProp={selectedtitle}
-          listOfUsers={selectedlistOfSelectedUsers}
+          listOfUsers={selectedlistOfSelectedUsers.filter(
+            user => user.id !== userTokenDecoded.id
+          )}
           setIsOpen={setIsModalOpen}
           isOpen={isModalOpen}
           onUpdate={getLists}
@@ -225,7 +227,9 @@ export default function Page() {
                       setIsOpen={setIsModalOpen}
                       listId={list.id}
                       titleProp={list.title}
-                      listOfUsers={list.users}
+                      listOfUsers={list.users.filter(
+                        user => user.id !== userTokenDecoded.id
+                      )}
                       setselectedListOfSelectedUsers={
                         setselectedListOfSelectedUsers
                       }
@@ -252,4 +256,6 @@ export default function Page() {
       </div>
     </div>
   );
-}
+};
+
+export default DashboardPage;
