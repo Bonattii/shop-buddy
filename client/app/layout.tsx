@@ -5,7 +5,7 @@ import ClientOnly from '@/app/components/ClientOnly';
 import Footer from '@/app/components/Sections/Footer';
 
 export const metadata: Metadata = {
-  title: 'ShoppBuddy',
+  title: 'ShopBuddy',
   description: 'ShopBuddy application to make shopping lists'
 };
 
