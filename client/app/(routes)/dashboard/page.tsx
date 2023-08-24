@@ -10,16 +10,15 @@ import {
   ArrowRightOnRectangleIcon,
   ArrowDownIcon,
   UsersIcon,
-  CalendarDaysIcon,
+  CalendarDaysIcon
 } from '@heroicons/react/24/outline';
 import { DocIcon } from '@/app/components/icons/DocIcon';
 import { CreateListModal } from '@/app/components/Modal/CreateListModal';
 import { UpdateListModal } from '@/app/components/Modal/UpdateListModal';
-
 import { api } from '@/app/server/api';
 import {
   getTokenFromLocalStorage,
-  removeTokenFromLocalStorage,
+  removeTokenFromLocalStorage
 } from '@/app/utils/storage';
 import { DropDown } from '@/app/components/DropDown';
 import { AVATAR_COLORS } from '@/app/utils/avatarColors';
@@ -51,8 +50,8 @@ const navigation = [
   {
     name: 'Logout',
     href: 'logout',
-    icon: <ArrowRightOnRectangleIcon className="w-6 h-6" />,
-  },
+    icon: <ArrowRightOnRectangleIcon className="w-6 h-6" />
+  }
 ];
 
 interface ImageAccountProps {
@@ -65,7 +64,8 @@ const ImageAccount: React.FC<ImageAccountProps> = ({ initial }) => {
       <div
         className={`h-24 w-24 rounded-full overflow-hidden ${
           AVATAR_COLORS[Math.floor(Math.random() * 18)]
-        } flex justify-center items-center`}>
+        } flex justify-center items-center`}
+      >
         <p className="text-5xl">{initial}</p>
       </div>
     </div>
@@ -91,9 +91,9 @@ export default function Page() {
   const getLists = () => {
     api
       .get('/lists', {
-        headers: { Authorization: `Bearer ${getTokenFromLocalStorage()}` },
+        headers: { Authorization: `Bearer ${getTokenFromLocalStorage()}` }
       })
-      .then((response) => setLists(response.data));
+      .then(response => setLists(response.data));
   };
 
   useEffect(() => {
@@ -124,7 +124,8 @@ export default function Page() {
         <button
           type="button"
           className="pr-6 inline-flex items-center justify-center rounded-md text-white"
-          onClick={() => setMobileMenuOpen(true)}>
+          onClick={() => setMobileMenuOpen(true)}
+        >
           <span className="sr-only">Open main menu</span>
           <Bars3Icon className="text-white h-6 w-6" aria-hidden="true" />
         </button>
@@ -139,7 +140,8 @@ export default function Page() {
             <button
               type="button"
               className=" rounded-md p-2.5 text-black"
-              onClick={() => setMobileMenuOpen(false)}>
+              onClick={() => setMobileMenuOpen(false)}
+            >
               <span className="sr-only">Close menu</span>
               <XMarkIcon className="h-6 w-6 text-white" aria-hidden="true" />
             </button>
@@ -155,7 +157,7 @@ export default function Page() {
           <div className="pl-5 mt-14 flow-root">
             <div className="-my-6 divide-y divide-gray-500/10">
               <div className="py-6">
-                {navigation.map((item) => (
+                {navigation.map(item => (
                   <>
                     {item.href === 'logout' ? (
                       <button
@@ -164,7 +166,8 @@ export default function Page() {
                         onClick={() => {
                           removeTokenFromLocalStorage();
                           router.push('/');
-                        }}>
+                        }}
+                      >
                         <div className="flex items-center gap-3">
                           {item.icon}
                           {item.name}
@@ -174,7 +177,8 @@ export default function Page() {
                       <Link
                         key={item.name}
                         href={item.href}
-                        className={`${noto_sans.className} flex gap-3 -mx-3 rounded-md px-3 py-2.5 text-base font-semibold leading-7 hover:bg-violet-300 text-white hover:text-black w-full mb-3`}>
+                        className={`${noto_sans.className} flex gap-3 -mx-3 rounded-md px-3 py-2.5 text-base font-semibold leading-7 hover:bg-violet-300 text-white hover:text-black w-full mb-3`}
+                      >
                         <div className="flex items-center gap-3">
                           {item.icon}
                           {item.name}
@@ -196,19 +200,21 @@ export default function Page() {
         <div className="mx-auto  rounded-2xl">
           <ul
             role="list"
-            className=" grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
-            {lists.map((list) => (
+            className=" grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4"
+          >
+            {lists.map(list => (
               <Link
                 key={list.id}
                 href={{
                   pathname: `/lists/[title]/[id]`,
                   query: {
                     title: list.title,
-                    id: list.id,
-                  },
+                    id: list.id
+                  }
                 }}
                 as={`/lists/${list.title}/${list.id}`}
-                className="text-white mb-6 mr-6 pb-12 px-4 pt-2 cursor-pointer rounded-lg bg-[#171616] hover:bg-neutral-800">
+                className="text-white mb-6 mr-6 pb-12 px-4 pt-2 cursor-pointer rounded-lg bg-[#171616] hover:bg-neutral-800"
+              >
                 <div className="flex  justify-between">
                   <div className="flex items-center ">
                     <DocIcon />

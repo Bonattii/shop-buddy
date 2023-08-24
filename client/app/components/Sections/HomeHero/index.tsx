@@ -13,11 +13,13 @@ const HomeHero = () => (
     <div className="flex md:block justify-center xl:justify-between mt-0 md:mt-20">
       <div className="pt-0 md:pt-5 ">
         <h1
-          className={`${playfair_display.className} text-left text-white text-4xl sm:text-7xl`}>
+          className={`${playfair_display.className} text-left text-white text-4xl sm:text-7xl`}
+        >
           Create and Organize
         </h1>
         <h1
-          className={`${playfair_display.className} text-left pt-2 text-white text-4xl sm:text-7xl`}>
+          className={`${playfair_display.className} text-left pt-2 text-white text-4xl sm:text-7xl`}
+        >
           Shopping Lists
         </h1>
         <p className={`${lora.className} text-lg sm:text-xl text-white mt-6`}>
