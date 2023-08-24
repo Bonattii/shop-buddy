@@ -14,6 +14,7 @@ import {
 } from '@heroicons/react/24/outline';
 import { DocIcon } from '@/app/components/icons/DocIcon';
 import { CreateListModal } from '@/app/components/Modal/CreateListModal';
+import { UpdateListModal } from '@/app/components/Modal/UpdateListModal';
 import { api } from '@/app/server/api';
 import {
   getTokenFromLocalStorage,
@@ -37,6 +38,11 @@ interface List {
       name: string;
     }
   ];
+}
+
+export interface User {
+  id: string;
+  name: string;
 }
 
 const navigation = [
@@ -67,6 +73,14 @@ const ImageAccount: React.FC<ImageAccountProps> = ({ initial }) => {
 };
 
 export default function Page() {
+  let [isModalOpen, setIsModalOpen] = useState(false);
+  let [selectedtitle, setselectedTitle] = useState('');
+  let [selectedid, setselectedid] = useState('');
+
+  let [selectedlistOfSelectedUsers, setselectedListOfSelectedUsers] = useState<
+    User[]
+  >([]);
+
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [lists, setLists] = useState<List[]>([]);
 
@@ -99,6 +113,14 @@ export default function Page() {
     <div className="pt-10  w-100% ">
       <div className="flex justify-between pb-10 ">
         <CreateListModal onUpdate={getLists} />
+        <UpdateListModal
+          listId={selectedid}
+          titleProp={selectedtitle}
+          listOfUsers={selectedlistOfSelectedUsers}
+          setIsOpen={setIsModalOpen}
+          isOpen={isModalOpen}
+          onUpdate={getLists}
+        />
         <button
           type="button"
           className="pr-6 inline-flex items-center justify-center rounded-md text-white"
@@ -140,7 +162,7 @@ export default function Page() {
                     {item.href === 'logout' ? (
                       <button
                         key={item.name}
-                        className={`${noto_sans.className} flex gap-3 -mx-3 rounded-md px-3 py-2.5 text-base font-semibold leading-7  text-red-500 hover:text-red-600 w-full`}
+                        className={`${noto_sans.className} flex gap-3 -mx-3 rounded-md px-3 py-2.5 text-base font-semibold leading-7  text-red-400 hover:bg-violet-300 hover:text-black w-full`}
                         onClick={() => {
                           removeTokenFromLocalStorage();
                           router.push('/');
@@ -155,7 +177,7 @@ export default function Page() {
                       <Link
                         key={item.name}
                         href={item.href}
-                        className={`${noto_sans.className} flex gap-3 -mx-3 rounded-md px-3 py-2.5 text-base font-semibold leading-7 hover:bg-purple-300 text-white hover:text-black`}
+                        className={`${noto_sans.className} flex gap-3 -mx-3 rounded-md px-3 py-2.5 text-base font-semibold leading-7 hover:bg-violet-300 text-white hover:text-black w-full mb-3`}
                       >
                         <div className="flex items-center gap-3">
                           {item.icon}
@@ -191,7 +213,7 @@ export default function Page() {
                   }
                 }}
                 as={`/lists/${list.title}/${list.id}`}
-                className="text-white mb-6 mr-8 pb-12 px-4 pt-2 cursor-pointer rounded-lg bg-[#171616] hover:bg-neutral-800"
+                className="text-white mb-6 mr-6 pb-12 px-4 pt-2 cursor-pointer rounded-lg bg-[#171616] hover:bg-neutral-800"
               >
                 <div className="flex  justify-between">
                   <div className="flex items-center ">
@@ -199,7 +221,18 @@ export default function Page() {
                     <p className={`${inter.className} text-xl`}>{list.title}</p>
                   </div>
                   <div className="items-center justify-center flex">
-                    <DropDown listId={list.id} />
+                    <DropDown
+                      setIsOpen={setIsModalOpen}
+                      listId={list.id}
+                      titleProp={list.title}
+                      listOfUsers={list.users}
+                      setselectedListOfSelectedUsers={
+                        setselectedListOfSelectedUsers
+                      }
+                      setselectedid={setselectedid}
+                      setselectedTitle={setselectedTitle}
+                      onUpdate={getLists}
+                    />
                   </div>
                 </div>
 

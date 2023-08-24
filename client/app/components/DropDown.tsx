@@ -1,30 +1,48 @@
 import { Menu, Transition } from '@headlessui/react';
-import { Fragment, useEffect, useRef, useState } from 'react';
+import { Fragment } from 'react';
 import { ChevronDownIcon } from '@heroicons/react/20/solid';
 import { api } from '@/app/server/api';
 import { getTokenFromLocalStorage } from '@/app/utils/storage';
-import { useRouter } from 'next/navigation';
+
 interface IconProps {
   className?: string;
   'aria-hidden'?: boolean;
 }
 
 interface DropDownProps {
+  setselectedListOfSelectedUsers: any;
+  setselectedid: any;
+  setselectedTitle: any;
+  onUpdate: any;
   listId: string;
+  setIsOpen: any;
+  titleProp: string;
+  listOfUsers: any;
 }
 
-export function DropDown({ listId }: DropDownProps) {
+export function DropDown({
+  onUpdate,
+  listId,
+  setselectedListOfSelectedUsers,
+  setselectedid,
+  setselectedTitle,
+  setIsOpen,
+  titleProp,
+  listOfUsers
+}: DropDownProps) {
   const handleDeleteList = () => {
-    api.delete(
-      'lists/delete',
+    api
+      .delete(
+        'lists/delete',
 
-      {
-        data: {
-          id: listId,
-        },
-        headers: { Authorization: `Bearer ${getTokenFromLocalStorage()}` },
-      }
-    );
+        {
+          data: {
+            id: listId
+          },
+          headers: { Authorization: `Bearer ${getTokenFromLocalStorage()}` }
+        }
+      )
+      .then(res => onUpdate());
   };
 
   return (
@@ -45,46 +63,49 @@ export function DropDown({ listId }: DropDownProps) {
           enterTo="transform opacity-100 scale-100"
           leave="transition ease-in duration-75"
           leaveFrom="transform opacity-100 scale-100"
-          leaveTo="transform opacity-0 scale-95">
+          leaveTo="transform opacity-0 scale-95"
+        >
           <Menu.Items className="z-50 absolute right-0 mt-2 w-56 origin-top-right divide-y divide-gray-100 rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
-            <div className="px-1 py-1 ">
+            <div className="px-1 pt-1 ">
               <Menu.Item>
-                {({ active }) => (
+                {({ close }) => (
                   <button
-                    className={`${
-                      active ? 'bg-violet-500 text-white' : 'text-gray-900'
-                    } group flex w-full items-center rounded-md px-2 py-2 text-sm`}>
-                    {active ? (
-                      <EditActiveIcon
-                        className="mr-2 h-5 w-5"
-                        aria-hidden={true}
-                      />
-                    ) : (
-                      <EditInactiveIcon
-                        className="mr-2 h-5 w-5"
-                        aria-hidden={true}
-                      />
-                    )}
+                    onClick={e => {
+                      e.preventDefault();
+                      close();
+
+                      setselectedTitle(titleProp);
+                      setselectedid(listId);
+                      setselectedListOfSelectedUsers(listOfUsers);
+                      setIsOpen(true);
+                    }}
+                    className="text-gray-900 group flex w-full items-center rounded-md px-2 py-2 text-sm"
+                  >
+                    <EditInactiveIcon
+                      className="mr-2 h-5 w-5"
+                      aria-hidden={true}
+                    />
                     Edit
                   </button>
                 )}
               </Menu.Item>
             </div>
 
-            <div className="px-1 py-1">
+            <div className="px-1 pb-1">
               <Menu.Item>
                 {({ active }) => (
                   <button
-                    onClick={(e) => {
+                    onClick={e => {
                       e.preventDefault();
                       handleDeleteList();
                     }}
                     className={`${
-                      active ? 'bg-violet-500 text-white' : 'text-gray-900'
-                    } group flex w-full items-center rounded-md px-2 py-2 text-sm`}>
+                      active ? 'bg-indigo-500 text-white' : 'text-gray-900'
+                    } group flex w-full items-center rounded-md px-2 py-2 text-sm`}
+                  >
                     {active ? (
                       <DeleteActiveIcon
-                        className="mr-2 h-5 w-5 text-violet-400"
+                        className="mr-2 h-5 w-5 text-indigo-400"
                         aria-hidden={true}
                       />
                     ) : (
@@ -105,17 +126,18 @@ export function DropDown({ listId }: DropDownProps) {
   );
 }
 
-function EditInactiveIcon(props: IconProps) {
+export function EditInactiveIcon(props: IconProps) {
   return (
     <svg
       {...props}
       viewBox="0 0 20 20"
       fill="none"
-      xmlns="http://www.w3.org/2000/svg">
+      xmlns="http://www.w3.org/2000/svg"
+    >
       <path
         d="M4 13V16H7L16 7L13 4L4 13Z"
         fill="#EDE9FE"
-        stroke="#A78BFA"
+        stroke="#6240DC"
         strokeWidth="2"
       />
     </svg>
@@ -128,119 +150,14 @@ function EditActiveIcon(props: IconProps) {
       {...props}
       viewBox="0 0 20 20"
       fill="none"
-      xmlns="http://www.w3.org/2000/svg">
+      xmlns="http://www.w3.org/2000/svg"
+    >
       <path
         d="M4 13V16H7L16 7L13 4L4 13Z"
-        fill="#8B5CF6"
+        fill="#7C5CF2"
         stroke="#C4B5FD"
         strokeWidth="2"
       />
-    </svg>
-  );
-}
-
-function DuplicateInactiveIcon(props: IconProps) {
-  return (
-    <svg
-      {...props}
-      viewBox="0 0 20 20"
-      fill="none"
-      xmlns="http://www.w3.org/2000/svg">
-      <path
-        d="M4 4H12V12H4V4Z"
-        fill="#EDE9FE"
-        stroke="#A78BFA"
-        strokeWidth="2"
-      />
-      <path
-        d="M8 8H16V16H8V8Z"
-        fill="#EDE9FE"
-        stroke="#A78BFA"
-        strokeWidth="2"
-      />
-    </svg>
-  );
-}
-
-function DuplicateActiveIcon(props: IconProps) {
-  return (
-    <svg
-      {...props}
-      viewBox="0 0 20 20"
-      fill="none"
-      xmlns="http://www.w3.org/2000/svg">
-      <path
-        d="M4 4H12V12H4V4Z"
-        fill="#8B5CF6"
-        stroke="#C4B5FD"
-        strokeWidth="2"
-      />
-      <path
-        d="M8 8H16V16H8V8Z"
-        fill="#8B5CF6"
-        stroke="#C4B5FD"
-        strokeWidth="2"
-      />
-    </svg>
-  );
-}
-
-function ArchiveInactiveIcon(props: IconProps) {
-  return (
-    <svg
-      {...props}
-      viewBox="0 0 20 20"
-      fill="none"
-      xmlns="http://www.w3.org/2000/svg">
-      <rect
-        x="5"
-        y="8"
-        width="10"
-        height="8"
-        fill="#EDE9FE"
-        stroke="#A78BFA"
-        strokeWidth="2"
-      />
-      <rect
-        x="4"
-        y="4"
-        width="12"
-        height="4"
-        fill="#EDE9FE"
-        stroke="#A78BFA"
-        strokeWidth="2"
-      />
-      <path d="M8 12H12" stroke="#A78BFA" strokeWidth="2" />
-    </svg>
-  );
-}
-
-function ArchiveActiveIcon(props: IconProps) {
-  return (
-    <svg
-      {...props}
-      viewBox="0 0 20 20"
-      fill="none"
-      xmlns="http://www.w3.org/2000/svg">
-      <rect
-        x="5"
-        y="8"
-        width="10"
-        height="8"
-        fill="#8B5CF6"
-        stroke="#C4B5FD"
-        strokeWidth="2"
-      />
-      <rect
-        x="4"
-        y="4"
-        width="12"
-        height="4"
-        fill="#8B5CF6"
-        stroke="#C4B5FD"
-        strokeWidth="2"
-      />
-      <path d="M8 12H12" stroke="#A78BFA" strokeWidth="2" />
     </svg>
   );
 }
@@ -251,7 +168,8 @@ function MoveInactiveIcon(props: IconProps) {
       {...props}
       viewBox="0 0 20 20"
       fill="none"
-      xmlns="http://www.w3.org/2000/svg">
+      xmlns="http://www.w3.org/2000/svg"
+    >
       <path d="M10 4H16V10" stroke="#A78BFA" strokeWidth="2" />
       <path d="M16 4L8 12" stroke="#A78BFA" strokeWidth="2" />
       <path d="M8 6H4V16H14V12" stroke="#A78BFA" strokeWidth="2" />
@@ -265,7 +183,8 @@ function MoveActiveIcon(props: IconProps) {
       {...props}
       viewBox="0 0 20 20"
       fill="none"
-      xmlns="http://www.w3.org/2000/svg">
+      xmlns="http://www.w3.org/2000/svg"
+    >
       <path d="M10 4H16V10" stroke="#C4B5FD" strokeWidth="2" />
       <path d="M16 4L8 12" stroke="#C4B5FD" strokeWidth="2" />
       <path d="M8 6H4V16H14V12" stroke="#C4B5FD" strokeWidth="2" />
@@ -279,14 +198,15 @@ function DeleteInactiveIcon(props: IconProps) {
       {...props}
       viewBox="0 0 20 20"
       fill="none"
-      xmlns="http://www.w3.org/2000/svg">
+      xmlns="http://www.w3.org/2000/svg"
+    >
       <rect
         x="5"
         y="6"
         width="10"
         height="10"
         fill="#EDE9FE"
-        stroke="#A78BFA"
+        stroke="#6240DC"
         strokeWidth="2"
       />
       <path d="M3 6H17" stroke="#A78BFA" strokeWidth="2" />
@@ -301,13 +221,14 @@ function DeleteActiveIcon(props: IconProps) {
       {...props}
       viewBox="0 0 20 20"
       fill="none"
-      xmlns="http://www.w3.org/2000/svg">
+      xmlns="http://www.w3.org/2000/svg"
+    >
       <rect
         x="5"
         y="6"
         width="10"
         height="10"
-        fill="#8B5CF6"
+        fill="#7C5CF2"
         stroke="#C4B5FD"
         strokeWidth="2"
       />

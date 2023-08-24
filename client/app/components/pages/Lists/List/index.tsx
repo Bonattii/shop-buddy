@@ -3,7 +3,7 @@
 import useList from './controller';
 import { ListProps } from './types';
 import * as Checkbox from '@radix-ui/react-checkbox';
-import { CheckIcon, ArrowRightIcon } from '@heroicons/react/24/outline';
+import { CheckIcon, ChevronLeftIcon } from '@heroicons/react/24/outline';
 import { ChangeEvent } from 'react';
 import Link from 'next/link';
 import { manrope } from '@/app/styles/fonts';
@@ -18,7 +18,7 @@ const ListContent = ({ params: { id, title } }: ListProps) => {
     editableItemId,
     handleEditItemName,
     handleItemNameClick,
-    setEditableItemId,
+    setEditableItemId
   } = useList(id, title);
 
   return (
@@ -26,9 +26,9 @@ const ListContent = ({ params: { id, title } }: ListProps) => {
       <nav className="self-start pl-3">
         <Link
           href="/dashboard"
-          className={`${manrope.className} text-white text-xl flex items-center gap-3`}>
-          Back to dashboard
-          <ArrowRightIcon className="h-5 w-5" />
+          className={`${manrope.className} text-white text-xl flex items-center gap-3`}
+        >
+          <ChevronLeftIcon className="h-5 w-5" />
         </Link>
       </nav>
 
@@ -53,10 +53,11 @@ const ListContent = ({ params: { id, title } }: ListProps) => {
             </form>
           ) : (
             <>
-              {listItems.map((listItem) => (
+              {listItems.map(listItem => (
                 <div
                   key={listItem.id}
-                  className="flex items-center mb-2 mr-3 gap-3">
+                  className="flex items-center mb-2 mr-3 gap-3"
+                >
                   <Checkbox.Root
                     onCheckedChange={() =>
                       handleToggleListItemBought(
@@ -66,14 +67,16 @@ const ListContent = ({ params: { id, title } }: ListProps) => {
                       )
                     }
                     checked={listItem.isBought}
-                    className="group focus:outline-none disabled:cursor-not-allowed ">
+                    className="group focus:outline-none disabled:cursor-not-allowed "
+                  >
                     <div className="flex items-center gap-3">
                       <div
                         className={`h-6 w-6 rounded-full flex items-center justify-center border-2 transition-colors ${
                           listItem.isBought
                             ? 'bg-purple-700 border-purple-700'
                             : 'border-gray-400 bg-zinc-900'
-                        }`}>
+                        }`}
+                      >
                         <Checkbox.Indicator>
                           <CheckIcon className="h-5 w-5 text-white" />
                         </Checkbox.Indicator>
@@ -102,7 +105,8 @@ const ListContent = ({ params: { id, title } }: ListProps) => {
                         listItem.isBought
                           ? 'line-through text-gray-500'
                           : 'text-white'
-                      }`}>
+                      }`}
+                    >
                       {listItem.itemName}
                     </p>
                   )}

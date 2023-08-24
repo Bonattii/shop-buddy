@@ -5,7 +5,7 @@ import homePage from '@/app/img/homePage.png';
 import LinkButton from '@/app/components/Buttons/LinkButton';
 
 const HomeHero = () => (
-  <section id="hero" className="p-6 lg:px-8">
+  <section id="hero" className="p-6 px-0 sm:px-8">
     <div className="md:hidden flex justify-center pt-5">
       <Image src={homePage} alt="Main page image" width={350} height={360} />
     </div>
@@ -13,11 +13,13 @@ const HomeHero = () => (
     <div className="flex md:block justify-center xl:justify-between mt-0 md:mt-20">
       <div className="pt-0 md:pt-5 ">
         <h1
-          className={`${playfair_display.className} text-left text-white text-5xl sm:text-6xl md:text-7xl`}>
+          className={`${playfair_display.className} text-left text-white text-4xl sm:text-7xl`}
+        >
           Create and Organize
         </h1>
         <h1
-          className={`${playfair_display.className} text-left pt-2 text-white text-5xl sm:text-7xl`}>
+          className={`${playfair_display.className} text-left pt-2 text-white text-4xl sm:text-7xl`}
+        >
           Shopping Lists
         </h1>
         <p className={`${lora.className} text-lg sm:text-xl text-white mt-6`}>
@@ -27,9 +29,9 @@ const HomeHero = () => (
     </div>
 
     <div className="pb-36 md:pb-40 lg:pb-0 flex gap-x-2 md:gap-x-3 mt-10 justify-center lg:justify-start">
-      <LinkButton authType="login" title="Welcome Back" />
+      <LinkButton authType="login" title="Sign in " />
 
-      <LinkButton type="outlined" authType="register" title="Start" />
+      <LinkButton type="outlined" authType="register" title="Register" />
     </div>
 
     <div className="-mt-36 flex justify-center items-center lg:flex lg:justify-end">

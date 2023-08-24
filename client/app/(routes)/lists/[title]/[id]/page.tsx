@@ -3,7 +3,7 @@
 import useList from './controller';
 import { ListPageProps } from './types';
 import * as Checkbox from '@radix-ui/react-checkbox';
-import { CheckIcon, ArrowRightIcon } from '@heroicons/react/24/outline';
+import { CheckIcon, ChevronLeftIcon } from '@heroicons/react/24/outline';
 import { ChangeEvent } from 'react';
 import Link from 'next/link';
 import { manrope } from '@/app/styles/fonts';
@@ -36,8 +36,7 @@ const ListContent = ({ params: { id, title } }: ListPageProps) => {
           href="/dashboard"
           className={`${manrope.className} text-white text-xl flex items-center gap-3`}
         >
-          Back to dashboard
-          <ArrowRightIcon className="h-5 w-5" />
+          <ChevronLeftIcon className="h-5 w-5" />
         </Link>
       </nav>
 
