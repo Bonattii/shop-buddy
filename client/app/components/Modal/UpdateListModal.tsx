@@ -4,28 +4,45 @@ import { PlusIcon, XMarkIcon } from '@heroicons/react/24/outline';
 import { api } from '../../server/api';
 import ModalSelect from '../ModalSelect';
 import { getTokenFromLocalStorage } from '@/app/utils/storage';
-import { EditInactiveIcon } from '../DropDown';
 
 export interface User {
   id: string;
   name: string;
 }
 
-interface CreateListModalProps {
+interface UpdateListModalProps {
   onUpdate: () => void;
+
+  titleProp: string;
+  listOfUsers: User[];
+  listId: string;
+  isOpen: boolean;
+  setIsOpen: (bool: boolean) => void;
 }
 
-export function CreateListModal({ onUpdate }: CreateListModalProps) {
-  let [isOpen, setIsOpen] = useState(false);
-  let [title, setTitle] = useState('');
-  let [listOfSelectedUsers, setListOfSelectedUsers] = useState<User[]>([]);
+export function UpdateListModal({
+  onUpdate,
+  titleProp,
+  listOfUsers,
+
+  listId,
+  isOpen,
+  setIsOpen,
+}: UpdateListModalProps) {
+  let [title, setTitle] = useState(titleProp);
+  let [listOfSelectedUsers, setListOfSelectedUsers] =
+    useState<User[]>(listOfUsers);
+
+  useEffect(() => {
+    setTitle(titleProp);
+  }, [titleProp]);
+
+  useEffect(() => {
+    setListOfSelectedUsers(listOfUsers);
+  }, [listOfUsers]);
 
   function closeModal() {
     setIsOpen(false);
-  }
-
-  function openModal() {
-    setIsOpen(true);
   }
 
   function addUserToListOfSelectedUsers(newUser: User) {
@@ -43,12 +60,20 @@ export function CreateListModal({ onUpdate }: CreateListModalProps) {
     setListOfSelectedUsers([...copyArray]);
   }
 
+  const reset = () => {
+    closeModal();
+    setTitle('');
+    setListOfSelectedUsers([]);
+    onUpdate();
+  };
+
   const handleSubmit = () => {
     api
-      .post(
-        'lists/create',
+      .put(
+        'lists/update',
         {
           title,
+          id: listId,
           otherUserIDs: listOfSelectedUsers.map((user) => user.id),
         },
         {
@@ -58,25 +83,14 @@ export function CreateListModal({ onUpdate }: CreateListModalProps) {
         }
       )
       .then((res) => {
-        setTitle('');
-        setListOfSelectedUsers([]);
-        onUpdate();
-        closeModal();
+        reset();
       });
   };
 
   return (
     <>
-      <button
-        type="button"
-        onClick={openModal}
-        className="ml-12 flex space-x-1 font-semibold mt-2 rounded-full px-3 py-2 bg-gradient-to-r from-indigo-950 to-indigo-700 hover:from-indigo-900 hover:to-indigo-900 text-white text-sm items-center ...">
-        <PlusIcon className="w-4 h-4 mr-1" />
-        New List
-      </button>
-
       <Transition appear show={isOpen} as={Fragment}>
-        <Dialog as="div" className="relative z-10" onClose={closeModal}>
+        <Dialog as="div" className="relative z-10" onClose={reset}>
           <Transition.Child
             as={Fragment}
             enter="ease-out duration-300"
@@ -102,7 +116,7 @@ export function CreateListModal({ onUpdate }: CreateListModalProps) {
                   <Dialog.Title
                     as="h3"
                     className="pt-8 text-3xl font-medium leading-6 text-white">
-                    Name Your List
+                    Edit Your List
                   </Dialog.Title>
                   <div>
                     <input
@@ -114,7 +128,7 @@ export function CreateListModal({ onUpdate }: CreateListModalProps) {
                   </div>
                   <div className="mt-12">
                     <h2 className="text-white text-xl">
-                      Who would you like to add to your list?
+                      Who would you like to add or remove from your list?
                     </h2>
                     <ModalSelect addToList={addUserToListOfSelectedUsers} />
                     <ul className=" list-disc ">

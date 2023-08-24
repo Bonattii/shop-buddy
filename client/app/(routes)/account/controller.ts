@@ -13,11 +13,16 @@ const useAccount = () => {
   const [submitted, setSubmitted] = useState(false);
 
   const userToken = getTokenFromLocalStorage();
-  const userTokenDecoded: UserToken = jwtDecode(userToken as string);
+  let userTokenDecoded: UserToken = {} as UserToken;
+
+  if (userToken) {
+    userTokenDecoded = jwtDecode(userToken as string);
+  }
+
   const userName = userTokenDecoded.name;
   const userPhone = userTokenDecoded.phone;
   const formattedUserName =
-    userName.charAt(0).toUpperCase() + userName.slice(1);
+    userName?.charAt(0).toUpperCase() + userName?.slice(1);
 
   const formik = useFormik({
     initialValues: {
