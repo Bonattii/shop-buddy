@@ -5,24 +5,23 @@ import homePage from '@/app/img/homePage.png';
 import LinkButton from '@/app/components/Buttons/LinkButton';
 
 const HomeHero = () => (
-  <section id="hero" className="p-6 px-0 sm:px-8">
-    <div className="md:hidden flex justify-center pt-5">
-      <Image src={homePage} alt="Main page image" width={350} height={360} />
+  <section id="hero" className="  sm:px-8">
+    <div className="md:hidden flex justify-center pt-16">
+      <Image src={homePage} alt="Main page image" width={330} height={340} />
     </div>
 
     <div className="flex md:block justify-center xl:justify-between mt-0 md:mt-20">
       <div className="pt-0 md:pt-5 ">
         <h1
-          className={`${playfair_display.className} text-left text-white text-4xl sm:text-7xl`}
-        >
+          className={`${playfair_display.className} text-center sm:text-left text-white text-4xl sm:text-7xl`}>
           Create and Organize
         </h1>
         <h1
-          className={`${playfair_display.className} text-left pt-2 text-white text-4xl sm:text-7xl`}
-        >
+          className={`${playfair_display.className} text-center sm:text-left pt-2 text-white text-4xl sm:text-7xl`}>
           Shopping Lists
         </h1>
-        <p className={`${lora.className} text-lg sm:text-xl text-white mt-6`}>
+        <p
+          className={`${lora.className} hidden md:block text-center sm:text-left text-sm sm:text-lg text-gray-300 mt-3 sm:mt-6`}>
           With friends, family or whoever you want!
         </p>
       </div>
@@ -36,7 +35,7 @@ const HomeHero = () => (
 
     <div className="-mt-36 flex justify-center items-center lg:flex lg:justify-end">
       <div className="hidden md:block lg:mr-0 2xl:mr-5 md:pt-0">
-        <Image src={homePage} alt="Main page image" width={450} height={460} />
+        <Image src={homePage} alt="Main page image" width={420} height={430} />
       </div>
     </div>
   </section>

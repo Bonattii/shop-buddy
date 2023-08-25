@@ -21,7 +21,7 @@ const AuthContent = () => {
         </nav>
 
         <div className="flex justify-center">
-          <div className="mt-2 px-16 py-12 self-center w-full lg:w-2/5 md:max-w-md  bg-transparent rounded-lg">
+          <div className="mt-12 px-16 py-12 self-center w-full lg:w-2/5 md:max-w-md  bg-transparent rounded-lg">
             <h2 className={`text-white text-4xl font-semibold mb-8`}>
               {authVariation === 'login' ? 'Sign in' : 'Register'}
             </h2>
