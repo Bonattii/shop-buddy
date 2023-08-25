@@ -11,42 +11,35 @@ const waysOfContact = [
   { name: 'Phone Number', content: '(604) 123-4567' },
   {
     name: 'Email Address',
-    content: 'contact@shopbuddy.com'
-  }
+    content: 'contact@shopbuddy.com',
+  },
 ];
 
 const ContactSection = () => (
   <section
     id="contact"
-    className="relative z-10 overflow-hidden bg-primary-500 py-24 sm:py-32 p-6 px-0 sm:px-8"
-  >
+    className="relative z-10 overflow-hidden bg-primary-500 sm:py-32 mt-32 pb-28 px-0 sm:px-8">
     <div className=" flex flex-wrap lg:justify-between">
       <div className="w-full lg:w-1/2 xl:w-6/12">
         <div className="mb-12 max-w-[570px] lg:mb-0">
           <span
-            className={`${lora.className} text-white mb-4 block text-base font-semibold`}
-          >
-            Contact Us
-          </span>
+            className={`${lora.className} text-white mb-4 block text-base font-semibold`}></span>
           <h2
-            className={`${playfair_display.className} text-white mb-6 text-[32px] font-bold uppercase sm:text-[40px] lg:text-[36px] xl:text-[40px]`}
-          >
-            GET IN TOUCH WITH US
+            className={`${playfair_display.className} text-center sm:text-left text-white mb-6 text-4xl sm:text-6xl font-bold `}>
+            Contact Us
           </h2>
           <p
-            className={`${lora.className} text-white mb-9 text-base leading-relaxed`}
-          >
+            className={`${lora.className} text-center sm:text-left text-white mb-9 text-base leading-relaxed`}>
             We care a lot about your opinion about how we can improve the
             application. And we care even more about your experience using it,
             so feel free to talk with us about your concerns.
           </p>
 
-          {waysOfContact.map(wayOfContact => (
+          {waysOfContact.map((wayOfContact) => (
             <div
               key={wayOfContact.name}
-              className="mb-8 flex w-full max-w-[370px] items-center"
-            >
-              <div className="bg-primary text-white mr-6 flex h-[60px] w-full max-w-[60px] items-center justify-center overflow-hidden rounded bg-opacity-5 sm:h-[70px] sm:max-w-[70px]">
+              className="ml-8 sm:ml-0 mb-8 flex w-full max-w-[370px] items-center">
+              <div className=" bg-primary text-white mr-6 flex h-[60px] w-full max-w-[60px] items-center justify-center overflow-hidden rounded bg-opacity-5 sm:h-[70px] sm:max-w-[70px]">
                 {wayOfContact.name === 'Phone Number' ? (
                   <PhoneIcon className="block h-12 w-12" />
                 ) : (
@@ -55,8 +48,7 @@ const ContactSection = () => (
               </div>
               <div className="w-full">
                 <h4
-                  className={`${playfair_display.className} text-white mb-1 text-xl font-bold`}
-                >
+                  className={`${playfair_display.className} text-white mb-1 text-xl font-bold`}>
                   {wayOfContact.name}
                 </h4>
                 <p className={`${lora.className} text-white text-base`}>
